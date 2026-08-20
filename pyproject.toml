@@ -1,0 +1,22 @@
+[project]
+name = "llm-production-hardening"
+version = "0.1.0"
+description = "The same LLM feature built twice: naive, and hardened for production."
+requires-python = ">=3.9"
+
+# Pinned, not ranged: the comparison between v1 and v2 is only meaningful if
+# both versions run against the same library versions.
+dependencies = [
+    "anthropic==0.125.0",
+    "pydantic==2.13.4",
+]
+
+[project.optional-dependencies]
+dev = ["pytest==8.4.2"]
+
+[tool.pytest.ini_options]
+# Puts the repo root on sys.path so tests import the packages directly.
+# The alternative is sys.path manipulation inside the code, which would be
+# exactly the kind of cleverness this project avoids.
+pythonpath = ["."]
+testpaths = ["tests"]
