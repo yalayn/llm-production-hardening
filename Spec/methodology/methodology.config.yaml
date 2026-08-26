@@ -1,0 +1,55 @@
+# Methodology configuration for this project.
+# Written by /methodology-init. Re-generating invariants reads from here
+# instead of re-running the interview.
+
+methodology_version: "3.1.0"
+
+project:
+  name: "llm-production-hardening"
+  # Relative on purpose: this file lives in a public repository and an
+  # absolute path would leak the author's home directory.
+  root_dir: "."
+  purpose: >-
+    A public engineering reference: the same LLM feature -- structured
+    extraction from a free-text support ticket -- implemented twice, naively
+    and hardened for production, and compared with measured numbers.
+  domain: >-
+    Support ticket triage. One free-text ticket in, validated structured
+    data out: category, urgency, named entities and a suggested action.
+
+# No `contract` block.
+# principles.md section 4 omits the contract slot for projects with a single
+# layer and no runtime communication between parts. This is that case: a
+# library plus an eval harness, with no HTTP boundary between them.
+
+# No `documentation` block: the API documentation step only applies when
+# there is a contract to render.
+
+naming:
+  spe_prefix: "SPEC"
+
+version_management:
+  integration_base: "main"
+  pull_request:
+    # The human opens pull requests. Merging is human in every configuration --
+    # the method does not make that part configurable.
+    author: human
+  cleanup_local_after_merge: false
+
+implementation_dirs:
+  - name: "v2_hardened"
+    path: "v2_hardened"
+    role: "The production-hardened implementation of the extraction feature"
+    stack: "Python 3.9 + Pydantic v2 + Anthropic SDK"
+    git_repo: true
+    architecture_doc: "V2_HARDENED_ARCHITECTURE.md"
+    arch_provenance: extracted
+
+# `v1_naive` and `evals` are planned but hold no code yet, so they are not
+# declared here. A directory without code gets no architecture document --
+# a binding document with nothing behind it is worse than its absence.
+# They join this list when their first spec creates them.
+
+# Single-repo topology: Spec/ is versioned by the repository that contains it,
+# not initialised as a separate git repo.
+spec_dir_is_git_repo: false
