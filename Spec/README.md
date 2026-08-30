@@ -6,7 +6,7 @@ authorises the work before it happens.
 
 If you are reading this repository to judge the engineering rather than to work on
 it, the two files worth your time are [`MASTER_PLAN.md`](MASTER_PLAN.md) — how the
-project is run — and [`V2_HARDENED_ARCHITECTURE.md`](V2_HARDENED_ARCHITECTURE.md) —
+project is run — and [`ARCHITECTURE.md`](ARCHITECTURE.md) —
 the binding description of how the code is written, extracted from the code itself.
 
 ## Layout
@@ -15,7 +15,7 @@ the binding description of how the code is written, extracted from the code itse
 |---|---|
 | `MASTER_PLAN.md` | Orchestration: flow, gates, rules, conventions |
 | `DOMAIN.md` | What exists in the domain |
-| `V2_HARDENED_ARCHITECTURE.md` | How code is written in `v2_hardened/` — **binding** |
+| `ARCHITECTURE.md` | How code is written, and the one deliberate divergence between the two implementations — **binding** |
 | `feature/` | One document per feature: identity, state, acceptance criteria, history |
 | `methodology/` | The method itself: the manual and its templates |
 | `stories/`, `prototype/` | Optional inputs. Unused here |

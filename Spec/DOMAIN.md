@@ -22,7 +22,7 @@ the domain is a single transformation and the vocabulary that describes it.
 
 **Ticket text** is domain input but not a modelled entity: it is an unstructured
 string supplied by the caller. It is also **untrusted** — see
-`V2_HARDENED_ARCHITECTURE.md` section 7.
+`ARCHITECTURE.md` section 7.
 
 ### The distinction between `other` and `unknown`
 

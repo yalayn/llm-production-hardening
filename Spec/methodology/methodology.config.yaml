@@ -37,18 +37,19 @@ version_management:
   cleanup_local_after_merge: false
 
 implementation_dirs:
-  - name: "v2_hardened"
-    path: "v2_hardened"
-    role: "The production-hardened implementation of the extraction feature"
+  # ONE implementation directory, not one per folder. The method's unit is a body
+  # of code with its own way of being written; v1_naive, v2_hardened and evals
+  # share a language, a virtual environment, a test root and every convention.
+  # They differ in exactly one dimension, recorded as canon in ARCHITECTURE.md
+  # section 0. Splitting them would produce documents that repeat each other --
+  # and would leave each new folder without a standing canon to build against.
+  - name: "Python codebase"
+    path: "."
+    role: "Both implementations of the extraction feature, plus the eval harness"
     stack: "Python 3.9 + Pydantic v2 + Anthropic SDK"
     git_repo: true
-    architecture_doc: "V2_HARDENED_ARCHITECTURE.md"
+    architecture_doc: "ARCHITECTURE.md"
     arch_provenance: extracted
-
-# `v1_naive` and `evals` are planned but hold no code yet, so they are not
-# declared here. A directory without code gets no architecture document --
-# a binding document with nothing behind it is worse than its absence.
-# They join this list when their first spec creates them.
 
 # Single-repo topology: Spec/ is versioned by the repository that contains it,
 # not initialised as a separate git repo.
