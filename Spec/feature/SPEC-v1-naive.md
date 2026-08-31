@@ -4,7 +4,7 @@
 |---|---|
 | **SPEC** | `SPEC-v1-naive` |
 | **featureId** | `v1-naive` |
-| **State** | 🔨 `In progress` |
+| **State** | 👀 `In review` |
 | **Author** | Yordin Da Rocha |
 | **Date** | 2026-08-20 |
 | **Depends on** | -- |
@@ -90,18 +90,18 @@ N/A — one directory.
 
 ## 8. Acceptance criteria
 
-- [ ] Given a stub returning well-formed JSON, a `dict` with the four expected
+- [x] Given a stub returning well-formed JSON, a `dict` with the four expected
       keys is returned.
-- [ ] Given a stub returning JSON wrapped in prose, `json.JSONDecodeError`
+- [x] Given a stub returning JSON wrapped in prose, `json.JSONDecodeError`
       propagates — pinned by a test, because that failure is a documented result of
       this version, not an accident.
-- [ ] Given valid JSON with a category outside the known set, the value is
+- [x] Given valid JSON with a category outside the known set, the value is
       returned unchanged and nothing is raised.
-- [ ] `v1_naive` imports nothing from `v2_hardened` — verified by a test, not by
+- [x] `v1_naive` imports nothing from `v2_hardened` — verified by a test, not by
       inspection.
-- [ ] `extract_ticket` is callable with a single argument, using a real client by
+- [x] `extract_ticket` is callable with a single argument, using a real client by
       default.
-- [ ] No test reaches the network or spends budget.
+- [x] No test reaches the network or spends budget.
 
 ## 9. Risks and open decisions
 
