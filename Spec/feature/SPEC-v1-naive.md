@@ -4,7 +4,7 @@
 |---|---|
 | **SPEC** | `SPEC-v1-naive` |
 | **featureId** | `v1-naive` |
-| **State** | 📝 `Draft` |
+| **State** | 🔨 `In progress` |
 | **Author** | Yordin Da Rocha |
 | **Date** | 2026-08-20 |
 | **Depends on** | -- |
@@ -123,3 +123,4 @@ N/A — one directory.
 | 2026-08-20 | Drafted. Two decisions left open for the approval gate: whether `v1` may use native structured output, and how "well written" is verified. |
 | 2026-08-20 | Rewritten shorter under the new `MASTER_PLAN` rule 9 (proportion). A third open decision — how a new directory acquires an architecture document — was dropped: rescoping to a single `ARCHITECTURE.md` removed the gap instead of working around it. |
 | 2026-08-20 | Open decision on native structured output resolved: `v1_naive` stays prose-based, and the objection is answered by a third variant (`v1_structured`) under its own spec rather than by argument in the README. |
+| 2026-08-20 | Approved by the human in conversation (`Draft` → `Ready`) and build started. |
