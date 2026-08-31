@@ -34,6 +34,11 @@ structured logging, feature flag: their absence *is* the feature. Any import fro
 `v2_hardened`. And making it fail on purpose: every weakness must be one a real
 developer would plausibly ship.
 
+**Also excluded, and deliberately so:** `v1_structured` — the same baseline using
+the provider's native structured output and nothing else. It is a separate feature
+with its own spec, written after this one, because it is this module with a single
+call changed.
+
 ## 3. Domain and data model
 
 Targets the same shape as `DOMAIN.md` but **does not import `TicketExtraction`**.
@@ -102,7 +107,7 @@ N/A — one directory.
 
 | Topic | Decision / pending | Owner |
 |---|---|---|
-| **Does `v1` use the provider's native structured output?** `output_config.format` is on the first page of the documentation, so a competent developer in a hurry might well reach for it. If `v1` uses it, it stops being naive in the dimension that matters most. If it does not, a reader may object that the baseline was weakened deliberately. **Proposed: prompt-based JSON and `json.loads()` — what dominates real code in the wild — with the README stating the choice and its reasoning outright** rather than leaving it to be discovered. | **Open — decide at the approval gate** | Human |
+| **Does `v1` use the provider's native structured output?** | **Resolved 2026-08-20: no.** `v1_naive` asks for JSON in the prompt and parses it with `json.loads()` — empirically what dominates the production code this repository is written for. The objection it invites ("that is a straw man") is answered with evidence rather than prose: a **third variant, `v1_structured`**, uses `output_config.format` and nothing else, and gets its own spec. The results table stays two columns; the third appears in its own README section answering the question directly. | Human |
 | How is "well written" verified? The one criterion that resists being binary. Proposed check: *"would a good developer sign this on a Friday afternoon?"*, with a "no" treated as blocking. | Open | Human |
 | A future change may "improve" `v1` and silently end the comparison. Mitigated: `ARCHITECTURE.md` section 0 records the divergence as canon, and the no-import rule is enforced by a test. | Accepted, mitigated | -- |
 
@@ -117,3 +122,4 @@ N/A — one directory.
 |---|---|
 | 2026-08-20 | Drafted. Two decisions left open for the approval gate: whether `v1` may use native structured output, and how "well written" is verified. |
 | 2026-08-20 | Rewritten shorter under the new `MASTER_PLAN` rule 9 (proportion). A third open decision — how a new directory acquires an architecture document — was dropped: rescoping to a single `ARCHITECTURE.md` removed the gap instead of working around it. |
+| 2026-08-20 | Open decision on native structured output resolved: `v1_naive` stays prose-based, and the objection is answered by a third variant (`v1_structured`) under its own spec rather than by argument in the README. |

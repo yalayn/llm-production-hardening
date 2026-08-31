@@ -29,6 +29,7 @@ written badly on purpose — defeats the point.
 | `Spec/` | Orchestrating authority: architecture, domain, feature state | Active |
 | `v2_hardened/` | The production-hardened implementation | Vertical implemented |
 | `v1_naive/` | The typical implementation, written well and without a safety net | Planned |
+| `v1_structured/` | The same baseline using native structured output and nothing else — answers the "isn't structured output enough?" objection with numbers | Planned |
 | `evals/` | The comparison harness and its output table | Planned |
 | `data/` | The golden dataset. Data, not code | Planned |
 | `tests/` | One test root for all of the above | Active |
