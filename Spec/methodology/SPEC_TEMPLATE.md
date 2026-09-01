@@ -60,7 +60,7 @@ the API documentation step. The section is kept so that section numbers stay
 stable across documents.
 
 The only external protocol is the provider API, and it is reached through exactly
-one call site — see `V2_HARDENED_ARCHITECTURE.md` section 6.
+one call site — see `ARCHITECTURE.md` section 6.
 
 ## 5. <<Implementation directory A — e.g. v2_hardened>>
 

@@ -24,20 +24,28 @@ written badly on purpose — defeats the point.
 
 ## 2. Directory philosophy
 
-| Directory | Role | State |
+| Path | Role | State |
 |---|---|---|
 | `Spec/` | Orchestrating authority: architecture, domain, feature state | Active |
-| `v2_hardened/` | The production-hardened implementation | Implemented (vertical only) |
+| `v2_hardened/` | The production-hardened implementation | Vertical implemented |
 | `v1_naive/` | The typical implementation, written well and without a safety net | Planned |
+| `v1_structured/` | The same baseline using native structured output and nothing else — answers the "isn't structured output enough?" objection with numbers | Planned |
 | `evals/` | The comparison harness and its output table | Planned |
-| `data/` | The golden dataset. Data, not an implementation directory | Planned |
-| `tests/` | Test root for every implementation directory | Active |
+| `data/` | The golden dataset. Data, not code | Planned |
+| `tests/` | One test root for all of the above | Active |
 
-Implementation directories are artefacts: they are not modified without a spec
-backing the change. `v1_naive` and `evals` are **not yet declared** in
-`methodology.config.yaml` — a directory with no code gets no architecture
-document, and declaring one early would create a binding document with nothing
-behind it. They join the config when their first spec creates them.
+**These are one implementation directory, not four.** The method's unit is a body
+of code with its own way of being written — its own stack, conventions and test
+setup — and all the Python here shares exactly that. It is governed by a single
+`ARCHITECTURE.md`, whose section 0 records the one dimension in which `v1_naive`
+and `v2_hardened` deliberately diverge.
+
+Splitting it per folder would produce documents that repeat each other, and would
+leave every new folder without a standing canon to build against — which the
+method allows in only one named case, and this is not it.
+
+Implementation code is an artefact: it is not modified without a spec backing the
+change.
 
 ## 3. Document hierarchy
 
@@ -45,7 +53,7 @@ behind it. They join the config when their first spec creates them.
 MASTER_PLAN.md            this file -- orchestration
   methodology/            the frozen method: manual and templates
   DOMAIN.md               what exists in the domain
-  <DIR>_ARCHITECTURE.md   how code is written in each directory (binding)
+  ARCHITECTURE.md         how code is written (binding)
   feature/SPEC-<id>.md    one document per feature: identity, state, history
 ```
 
@@ -113,6 +121,12 @@ outside the cycle. Only the header of each spec records this.
 7. **Simple over clever.** A reader should follow any module in five minutes.
 8. **English throughout** — code, comments, names and documentation, this
    directory included.
+
+9. **Proportion.** A spec is written to the size of its change. Sections that do
+   not apply are marked `N/A` in one line — never padded with prose to look
+   complete. The gates do not shrink and the cycle does not shorten: what scales
+   is the paperwork, not the control. A spec longer than the code it authorises
+   is a signal to re-read, not a sign of rigour.
 
 **Testing requirement.** Every affected implementation directory must declare its
 test framework and its test folder; without that, Verification is **blocked** for

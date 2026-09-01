@@ -76,7 +76,7 @@ It is never written into the repository, and `.env` is git-ignored.
 ## Where things live when you get lost
 
 - What state is everything in? — `grep -H "State" Spec/feature/*.md`
-- Why is the code shaped like this? — `Spec/V2_HARDENED_ARCHITECTURE.md`
+- Why is the code shaped like this? — `Spec/ARCHITECTURE.md`
 - Why was that decided? — section 9 and section 11 of the relevant spec
 - What are the rules? — `Spec/MASTER_PLAN.md`, and the theory in
   `Spec/methodology/principles.md`
