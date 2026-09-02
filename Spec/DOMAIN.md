@@ -43,10 +43,15 @@ to any implementation.
 
 ## 4. Presence in other directories
 
+> **This section is the single owner of implementation status.** `principles.md`
+> section 4.1 makes this document the mirror of implemented reality, updated at
+> closing. No other document repeats it — one that did would be wrong within the
+> hour, as three of them were.
+
 | Directory | Status |
 |---|---|
 | `v2_hardened` | Implemented — owns the domain definitions |
-| `v1_naive` | Planned. Deliberately does **not** import these definitions: it describes the target shape in prose inside its prompt, which is a large part of what is being measured |
+| `v1_naive` | **Implemented** (2026-08-20). Deliberately does **not** import these definitions: it describes the target shape in prose inside its prompt, which is a large part of what is being measured |
 | `evals` | Planned. Compares both implementations against the golden dataset; consumes the domain, does not define it |
 
 ## 5. Growth considerations

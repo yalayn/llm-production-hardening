@@ -16,7 +16,7 @@ You run the **Closing Sequence** for a feature that is implemented and **approve
 3. **Resolve the integration base.** Precedence: `--base <branch>` passed to `/cierre` → the spec's `Integration base` field → `version_management.integration_base` (`main`). If the resolved branch does not exist, say so and offer to create it **with confirmation** — never open a pull request against an invalid target.
 4. **Build the pull request body, always.** Fill `Spec/methodology/PR_TEMPLATE.md` with real data: the spec, the changes, the criteria from section 8, the state of the tests, and the confirmation that no test reached the network. This happens **before and independently of** how the request is opened.
    - `version_management.pull_request.author` is **`human`** in this project → **hand off**: give the human the comparison path (`main...feat/SPEC-<featureId>`) **and the filled body**, ready to paste. **Never the URL alone.**
-   - **No remote is configured yet.** Say so plainly: the branch cannot be pushed and the pull request cannot be opened until one exists. Do not present the hand-off as if it were complete.
+   - **If no remote is configured**, say so plainly: the branch cannot be pushed and the pull request cannot be opened until one exists, and the hand-off must not be presented as complete. Check it (`git remote -v`) — do not assume either way, and do not trust what this file says about it.
 5. **Opportunistic cleanup** is disabled (`cleanup_local_after_merge: false`). Skip it.
 
 ## Rules and stop

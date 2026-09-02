@@ -57,9 +57,9 @@ measures nothing.
 ## 2. Structure
 
 ```
-v1_naive/       the typical implementation        (implemented)
-v2_hardened/    the production-hardened one       (vertical implemented)
-evals/          the comparison harness            (planned)
+v1_naive/       the typical implementation
+v2_hardened/    the production-hardened one
+evals/          the comparison harness
 data/           the golden dataset -- data, not code
 tests/          one test root for all of the above
 ```
