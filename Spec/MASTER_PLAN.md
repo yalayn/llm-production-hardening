@@ -24,15 +24,20 @@ written badly on purpose — defeats the point.
 
 ## 2. Directory philosophy
 
-| Path | Role | State |
-|---|---|---|
-| `Spec/` | Orchestrating authority: architecture, domain, feature state | Active |
-| `v2_hardened/` | The production-hardened implementation | Vertical implemented |
-| `v1_naive/` | The typical implementation, written well and without a safety net | Planned |
-| `v1_structured/` | The same baseline using native structured output and nothing else — answers the "isn't structured output enough?" objection with numbers | Planned |
-| `evals/` | The comparison harness and its output table | Planned |
-| `data/` | The golden dataset. Data, not code | Planned |
-| `tests/` | One test root for all of the above | Active |
+| Path | Role |
+|---|---|
+| `Spec/` | Orchestrating authority: architecture, domain, feature state |
+| `v2_hardened/` | The production-hardened implementation |
+| `v1_naive/` | The typical implementation, written well and without a safety net |
+| `v1_structured/` | The same baseline using native structured output and nothing else — answers the "isn't structured output enough?" objection with numbers |
+| `evals/` | The comparison harness and its output table |
+| `data/` | The golden dataset. Data, not code |
+| `tests/` | One test root for all of the above |
+
+**Which of these exist yet is not recorded here.** `DOMAIN.md` section 4 owns that,
+because `principles.md` section 4.1 already makes it the mirror of implemented
+reality, updated at closing. This table is about roles, which do not change when
+code lands.
 
 **These are one implementation directory, not four.** The method's unit is a body
 of code with its own way of being written — its own stack, conventions and test
@@ -94,8 +99,14 @@ SPEC → approval → AUDIT → IMPLEMENTATION (TDD) → VERIFICATION → CLOSIN
 - **Pull requests are opened by the human** (`version_management.pull_request.author: human`).
   `/cierre` hands over the comparison URL together with the filled-in body.
 - **Merging is human, always.** The method does not make that configurable.
-- No remote is configured yet. Until one exists, `/cierre` can prepare a pull
-  request but nothing can be pushed — the last gate stays incomplete.
+- Where no remote is configured, the branch cannot be pushed and no pull request
+  can be opened. `/cierre` still produces the body, and says plainly that the
+  hand-off is incomplete rather than presenting it as done.
+
+> **This file states rules, not the state of the workspace.** A document that
+> records a passing fact — which remote exists today, which folder is still empty —
+> begins lying the moment that fact changes, and nothing here checks it. Facts
+> belong where they can be observed: `git remote -v`, the filesystem, `DOMAIN.md`.
 
 ## 6. Spec states
 
