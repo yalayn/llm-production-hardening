@@ -4,7 +4,7 @@
 |---|---|
 | **SPEC** | `SPEC-golden-dataset` |
 | **featureId** | `golden-dataset` |
-| **State** | 👀 `In review` |
+| **State** | ✅ `Implemented` |
 | **Author** | Yordin Da Rocha |
 | **Date** | 2026-08-20 |
 | **Depends on** | `SPEC-v1-naive` |
@@ -122,3 +122,4 @@ N/A — one directory.
 |---|---|
 | 2026-08-20 | Drafted. The load-bearing open question is who owns the ground truth: if the agent both writes the cases and decides the right answers, the results table measures agreement with the agent. |
 | 2026-08-20 | Approved by the human in conversation, including the split of ground truth: the agent drafts, the human adjudicates at the criteria gate. Build started. |
+| 2026-08-20 | Criteria approved by the human, including the twenty edge-case answers. Closed as `Implemented`. |
