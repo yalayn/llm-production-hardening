@@ -4,7 +4,7 @@
 |---|---|
 | **SPEC** | `SPEC-golden-dataset` |
 | **featureId** | `golden-dataset` |
-| **State** | 🔨 `In progress` |
+| **State** | 👀 `In review` |
 | **Author** | Yordin Da Rocha |
 | **Date** | 2026-08-20 |
 | **Depends on** | `SPEC-v1-naive` |
@@ -86,22 +86,22 @@ N/A — one directory.
 
 ## 8. Acceptance criteria
 
-- [ ] `data/golden.jsonl` holds exactly 50 records: 30 with `family: normal`, 20
+- [x] `data/golden.jsonl` holds exactly 50 records: 30 with `family: normal`, 20
       edge cases.
-- [ ] All nine edge families are present: empty, two-word, non-target language,
+- [x] All nine edge families are present: empty, two-word, non-target language,
       10,000-word, genuinely ambiguous, prompt injection, non-existent category,
       control characters and pasted HTML, exact duplicate.
-- [ ] Every record parses, carries every required field, and holds exactly one of
+- [x] Every record parses, carries every required field, and holds exactly one of
       `ticket` or `ticket_file` — verified by a test.
-- [ ] Every `expected.category` and `expected.urgency` is a member of the closed
+- [x] Every `expected.category` and `expected.urgency` is a member of the closed
       sets in `DOMAIN.md` — verified by a test, so a typo cannot silently create an
       unpassable case.
-- [ ] The duplicate record's ticket is byte-identical to the record it names in
+- [x] The duplicate record's ticket is byte-identical to the record it names in
       `duplicate_of` — verified by a test.
-- [ ] The long-ticket fixture is at least 10,000 words — verified by a test.
-- [ ] No record and no test references `v1_naive` or `v2_hardened`; the dataset
+- [x] The long-ticket fixture is at least 10,000 words — verified by a test.
+- [x] No record and no test references `v1_naive` or `v2_hardened`; the dataset
       describes the problem, not either answer — verified by a test.
-- [ ] No test reaches the network or spends budget.
+- [x] No test reaches the network or spends budget.
 
 ## 9. Risks and open decisions
 
