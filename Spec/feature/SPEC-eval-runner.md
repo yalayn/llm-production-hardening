@@ -4,7 +4,7 @@
 |---|---|
 | **SPEC** | `SPEC-eval-runner` |
 | **featureId** | `eval-runner` |
-| **State** | 🔨 `In progress` |
+| **State** | 👀 `In review` |
 | **Author** | Yordin Da Rocha |
 | **Date** | 2026-09-07 |
 | **Depends on** | `SPEC-v1-naive`, `SPEC-golden-dataset` |
@@ -96,19 +96,19 @@ N/A — one directory.
 
 ## 8. Acceptance criteria
 
-- [ ] Given a stub implementation and a dataset, one result record is written per
+- [x] Given a stub implementation and a dataset, one result record is written per
       case, in order.
-- [ ] Given an implementation that raises on a specific case, that case is
+- [x] Given an implementation that raises on a specific case, that case is
       recorded with its exception type and traceback, and the following cases
       still run.
-- [ ] Given a budget already exceeded by the accumulated usage, the run stops and
+- [x] Given a budget already exceeded by the accumulated usage, the run stops and
       the summary states how many cases were not run.
-- [ ] Started without `--budget`, the runner exits with an error and runs nothing.
-- [ ] Given an unknown `--impl`, it exits listing the valid names.
-- [ ] `--limit` runs exactly that many cases.
-- [ ] The runner issues no retry and alters no result it receives — verified by a
+- [x] Started without `--budget`, the runner exits with an error and runs nothing.
+- [x] Given an unknown `--impl`, it exits listing the valid names.
+- [x] `--limit` runs exactly that many cases.
+- [x] The runner issues no retry and alters no result it receives — verified by a
       stub that counts how many times it was called per case.
-- [ ] No test reaches the network or spends budget.
+- [x] No test reaches the network or spends budget.
 
 ## 9. Risks and open decisions
 
@@ -129,3 +129,4 @@ N/A — one directory.
 | 2026-09-07 | Drafted. Written after the smoke check measured a real call at 727 in / 70 out tokens, which is what makes the budget ceiling countable rather than estimated. |
 | 2026-09-08 | Date corrected from 2026-09-04 to the real commit date. Third instance of the same defect: the date is written when drafting and the commit lands days later. From here it is read from the system clock at write time, not from memory. |
 | 2026-09-08 | Approved by the human in conversation, including the proposal that run outputs stay git-ignored and the final phase commits a summary. Build started. |
+| 2026-09-08 | Build found a defect that the criteria as written would not have caught: `run()` created its own recorder, so in real use the implementation reported usage to one object while the ceiling watched another, and no call would ever have counted against the budget. Fixed, with a regression test named after the failure. |
