@@ -6,7 +6,7 @@
 | **featureId** | `v1-naive` |
 | **State** | ✅ `Implemented` |
 | **Author** | Yordin Da Rocha |
-| **Date** | 2026-08-20 |
+| **Date** | 2026-08-26 |
 | **Depends on** | -- |
 | **Implementation directories** | `Python codebase` — adds `v1_naive/` |
 | **Integration base** | -- |
@@ -107,7 +107,7 @@ N/A — one directory.
 
 | Topic | Decision / pending | Owner |
 |---|---|---|
-| **Does `v1` use the provider's native structured output?** | **Resolved 2026-08-20: no.** `v1_naive` asks for JSON in the prompt and parses it with `json.loads()` — empirically what dominates the production code this repository is written for. The objection it invites ("that is a straw man") is answered with evidence rather than prose: a **third variant, `v1_structured`**, uses `output_config.format` and nothing else, and gets its own spec. The results table stays two columns; the third appears in its own README section answering the question directly. | Human |
+| **Does `v1` use the provider's native structured output?** | **Resolved 2026-08-31: no.** `v1_naive` asks for JSON in the prompt and parses it with `json.loads()` — empirically what dominates the production code this repository is written for. The objection it invites ("that is a straw man") is answered with evidence rather than prose: a **third variant, `v1_structured`**, uses `output_config.format` and nothing else, and gets its own spec. The results table stays two columns; the third appears in its own README section answering the question directly. | Human |
 | How is "well written" verified? The one criterion that resists being binary. Proposed check: *"would a good developer sign this on a Friday afternoon?"*, with a "no" treated as blocking. | Open | Human |
 | A future change may "improve" `v1` and silently end the comparison. Mitigated: `ARCHITECTURE.md` section 0 records the divergence as canon, and the no-import rule is enforced by a test. | Accepted, mitigated | -- |
 
@@ -120,8 +120,9 @@ N/A — one directory.
 
 | Date | Change |
 |---|---|
-| 2026-08-20 | Drafted. Two decisions left open for the approval gate: whether `v1` may use native structured output, and how "well written" is verified. |
-| 2026-08-20 | Rewritten shorter under the new `MASTER_PLAN` rule 9 (proportion). A third open decision — how a new directory acquires an architecture document — was dropped: rescoping to a single `ARCHITECTURE.md` removed the gap instead of working around it. |
-| 2026-08-20 | Open decision on native structured output resolved: `v1_naive` stays prose-based, and the objection is answered by a third variant (`v1_structured`) under its own spec rather than by argument in the README. |
-| 2026-08-20 | Approved by the human in conversation (`Draft` → `Ready`) and build started. |
-| 2026-08-20 | Criteria approved by the human; closed as `Implemented`. |
+| 2026-08-26 | Drafted. Two decisions left open for the approval gate: whether `v1` may use native structured output, and how "well written" is verified. |
+| 2026-08-30 | Rewritten shorter under the new `MASTER_PLAN` rule 9 (proportion). A third open decision — how a new directory acquires an architecture document — was dropped: rescoping to a single `ARCHITECTURE.md` removed the gap instead of working around it. |
+| 2026-08-31 | Open decision on native structured output resolved: `v1_naive` stays prose-based, and the objection is answered by a third variant (`v1_structured`) under its own spec rather than by argument in the README. |
+| 2026-08-31 | Approved by the human in conversation (`Draft` → `Ready`) and build started. |
+| 2026-08-31 | Criteria approved by the human; closed as `Implemented`. |
+| 2026-09-04 | **Dates corrected.** Every row above and the `Date` field read 2026-08-20, which matched no commit: the real dates run from 2026-08-26 to 2026-08-31. The field exists to give chronological order alongside `git log`, so one that disagrees with `git log` defeats its only purpose. Recorded rather than silently rewritten. |
