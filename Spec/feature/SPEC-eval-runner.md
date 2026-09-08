@@ -4,9 +4,9 @@
 |---|---|
 | **SPEC** | `SPEC-eval-runner` |
 | **featureId** | `eval-runner` |
-| **State** | 📝 `Draft` |
+| **State** | 🔨 `In progress` |
 | **Author** | Yordin Da Rocha |
-| **Date** | 2026-09-04 |
+| **Date** | 2026-09-07 |
 | **Depends on** | `SPEC-v1-naive`, `SPEC-golden-dataset` |
 | **Implementation directories** | `Python codebase` — adds `evals/` |
 | **Integration base** | -- |
@@ -126,4 +126,6 @@ N/A — one directory.
 
 | Date | Change |
 |---|---|
-| 2026-09-04 | Drafted. Written after the smoke check measured a real call at 727 in / 70 out tokens, which is what makes the budget ceiling countable rather than estimated. |
+| 2026-09-07 | Drafted. Written after the smoke check measured a real call at 727 in / 70 out tokens, which is what makes the budget ceiling countable rather than estimated. |
+| 2026-09-08 | Date corrected from 2026-09-04 to the real commit date. Third instance of the same defect: the date is written when drafting and the commit lands days later. From here it is read from the system clock at write time, not from memory. |
+| 2026-09-08 | Approved by the human in conversation, including the proposal that run outputs stay git-ignored and the final phase commits a summary. Build started. |
