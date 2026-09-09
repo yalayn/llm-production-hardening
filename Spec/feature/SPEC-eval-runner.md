@@ -4,7 +4,7 @@
 |---|---|
 | **SPEC** | `SPEC-eval-runner` |
 | **featureId** | `eval-runner` |
-| **State** | 👀 `In review` |
+| **State** | ✅ `Implemented` |
 | **Author** | Yordin Da Rocha |
 | **Date** | 2026-09-07 |
 | **Depends on** | `SPEC-v1-naive`, `SPEC-golden-dataset` |
@@ -130,3 +130,4 @@ N/A — one directory.
 | 2026-09-08 | Date corrected from 2026-09-04 to the real commit date. Third instance of the same defect: the date is written when drafting and the commit lands days later. From here it is read from the system clock at write time, not from memory. |
 | 2026-09-08 | Approved by the human in conversation, including the proposal that run outputs stay git-ignored and the final phase commits a summary. Build started. |
 | 2026-09-08 | Build found a defect that the criteria as written would not have caught: `run()` created its own recorder, so in real use the implementation reported usage to one object while the ceiling watched another, and no call would ever have counted against the budget. Fixed, with a regression test named after the failure. |
+| 2026-09-08 | Criteria approved by the human. Closed as `Implemented`. |
