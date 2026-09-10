@@ -37,9 +37,9 @@ class UsageRecorder:
         self.calls: List[Dict[str, Any]] = []
         self.messages = _RecordingMessages(self)
 
-    def record(self, model: str, input_tokens: int, output_tokens: int) -> None:
+    def record(self, model: str, input_tokens: int, output_tokens: int, raw: Optional[str] = None) -> None:
         self.calls.append(
-            {"model": model, "input_tokens": input_tokens, "output_tokens": output_tokens}
+            {"model": model, "input_tokens": input_tokens, "output_tokens": output_tokens, "raw": raw}
         )
 
     def spend(self) -> float:
@@ -58,8 +58,18 @@ class _RecordingMessages:
     def create(self, **kwargs: Any) -> Any:
         response = self._recorder._api.messages.create(**kwargs)
         usage = response.usage
-        self._recorder.record(response.model, usage.input_tokens, usage.output_tokens)
+        self._recorder.record(
+            response.model, usage.input_tokens, usage.output_tokens, _text_of(response)
+        )
         return response
+
+
+def _text_of(response: Any) -> Optional[str]:
+    """The text the model actually returned, recorded so a failure can be read."""
+    for block in getattr(response, "content", []) or []:
+        if getattr(block, "type", None) == "text":
+            return block.text
+    return None
 
 
 def _run_v1(text: str, recorder: UsageRecorder) -> Any:
@@ -118,7 +128,11 @@ def run(implementation, cases, out_path, budget: float, recorder=None) -> Dict[s
                 record["error"] = {"type": type(exc).__name__, "traceback": traceback.format_exc()}
                 failures += 1
 
-            record["usage"] = recorder.calls[before:]
+            calls = recorder.calls[before:]
+            record["usage"] = calls
+            # The raw reply of the last call: for a failure this is the only way to
+            # see what the model actually said.
+            record["raw"] = calls[-1]["raw"] if calls else None
             handle.write(json.dumps(record, ensure_ascii=False) + "\n")
             ran += 1
 
