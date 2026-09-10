@@ -4,7 +4,7 @@
 |---|---|
 | **SPEC** | `SPEC-run-fidelity` |
 | **featureId** | `run-fidelity` |
-| **State** | 📝 `Draft` |
+| **State** | 🔨 `In progress` |
 | **Author** | Yordin Da Rocha |
 | **Date** | 2026-09-09 |
 | **Depends on** | `SPEC-v1-naive`, `SPEC-eval-runner` |
@@ -121,3 +121,4 @@ N/A — one directory.
 | Date | Change |
 |---|---|
 | 2026-09-09 | Drafted after the first real baseline run: 45 of 50 cases failed, 43 of them on response-block selection and 2 on empty input rejected by the provider. Neither cause is anything the seven hardening elements address. |
+| 2026-09-09 | Approved by the human in conversation. Build started. The open decision in section 9 concerns a future `v2` element and does not block this one. |
