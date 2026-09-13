@@ -28,18 +28,27 @@ class FakeSDK:
     awkwardness here is deliberate and should not be tidied away.
     """
 
-    def __init__(self, text):
+    def __init__(self, text, leading_thinking=False):
         self._text = text
+        self._leading_thinking = leading_thinking
         self.calls = []
         outer = self
 
         class _Messages:
             def create(self, **kwargs):
                 outer.calls.append(kwargs)
-                block = mock.Mock()
-                block.text = outer._text
+                blocks = []
+                if outer._leading_thinking:
+                    thinking = mock.Mock(spec=["type"])   # no `.text`, like the real one
+                    thinking.type = "thinking"
+                    blocks.append(thinking)
+                if outer._text is not None:
+                    block = mock.Mock()
+                    block.type = "text"
+                    block.text = outer._text
+                    blocks.append(block)
                 response = mock.Mock()
-                response.content = [block]
+                response.content = blocks
                 return response
 
         self.messages = _Messages()
@@ -99,3 +108,21 @@ def test_does_not_import_from_the_hardened_implementation():
     ).read_text()
 
     assert "v2_hardened" not in source
+
+
+def test_reads_the_text_block_when_the_response_leads_with_thinking():
+    """Regression from the first real run: 43 of 50 cases died here, because
+    index 0 is a thinking block on a model that reasons by default."""
+    client = FakeSDK(WELL_FORMED, leading_thinking=True)
+
+    result = extract_ticket(TICKET, client)
+
+    assert result["category"] == "billing"
+
+
+def test_raises_when_the_response_carries_no_text_block_at_all():
+    """It does not invent a result to paper over an empty response."""
+    client = FakeSDK(None, leading_thinking=True)
+
+    with pytest.raises(Exception):
+        extract_ticket(TICKET, client)

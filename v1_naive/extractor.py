@@ -37,4 +37,7 @@ def extract_ticket(ticket_text: str, client: Optional[Any] = None) -> Dict[str, 
         messages=[{"role": "user", "content": ticket_text}],
     )
 
-    return json.loads(response.content[0].text)
+    for block in response.content:
+        if block.type == "text":
+            return json.loads(block.text)
+    raise ValueError("the response contained no text block")

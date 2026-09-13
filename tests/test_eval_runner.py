@@ -132,3 +132,32 @@ def test_failures_are_counted_in_the_summary(tmp_path):
     summary = runner.run(StubImpl(fail_on="two"), CASES, tmp_path / "r.jsonl", budget=1.0)
 
     assert summary["failures"] == 1
+
+
+def test_every_record_carries_the_raw_reply(tmp_path):
+    out = tmp_path / "r.jsonl"
+
+    class RawStub:
+        def __call__(self, text, recorder):
+            recorder.record("claude-sonnet-5", 10, 2, raw='{"category":"billing"}')
+            return {"category": "billing"}
+
+    runner.run(RawStub(), CASES, out, budget=1.0)
+
+    assert all(r["raw"] == '{"category":"billing"}' for r in read(out))
+
+
+def test_a_failed_case_still_records_what_the_model_replied(tmp_path):
+    """The first real run could not be read because this was missing."""
+    out = tmp_path / "r.jsonl"
+
+    class FailingStub:
+        def __call__(self, text, recorder):
+            recorder.record("claude-sonnet-5", 10, 2, raw="Sure! Here is the JSON:")
+            raise ValueError("nope")
+
+    runner.run(FailingStub(), CASES[:1], out, budget=1.0)
+
+    record = read(out)[0]
+    assert record["ok"] is False
+    assert record["raw"] == "Sure! Here is the JSON:"
