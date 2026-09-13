@@ -4,7 +4,7 @@
 |---|---|
 | **SPEC** | `SPEC-readme-failures` |
 | **featureId** | `readme-failures` |
-| **State** | 📝 `Draft` |
+| **State** | 🔨 `In progress` |
 | **Author** | Yordin Da Rocha |
 | **Date** | 2026-09-13 |
 | **Depends on** | `SPEC-run-fidelity` |
@@ -118,3 +118,4 @@ date. Nothing asks them to take a claim on faith.
 | Date | Change |
 |---|---|
 | 2026-09-13 | Drafted. Pulled forward from the final phase because the evidence lives only in git-ignored files and costs 0.27 USD plus a stable provider to reproduce. |
+| 2026-09-13 | Approved by the human in conversation. Build started. |
