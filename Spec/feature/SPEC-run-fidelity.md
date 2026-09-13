@@ -4,7 +4,7 @@
 |---|---|
 | **SPEC** | `SPEC-run-fidelity` |
 | **featureId** | `run-fidelity` |
-| **State** | 👀 `In review` |
+| **State** | ✅ `Implemented` |
 | **Author** | Yordin Da Rocha |
 | **Date** | 2026-09-09 |
 | **Depends on** | `SPEC-v1-naive`, `SPEC-eval-runner` |
@@ -123,3 +123,4 @@ N/A — one directory.
 | 2026-09-09 | Drafted after the first real baseline run: 45 of 50 cases failed, 43 of them on response-block selection and 2 on empty input rejected by the provider. Neither cause is anything the seven hardening elements address. |
 | 2026-09-09 | Approved by the human in conversation. Build started. The open decision in section 9 concerns a future `v2` element and does not block this one. |
 | 2026-09-09 | Built. Both directions verified by mutation: reverting to index 0 turns the new test red, and adding validation to `v1` turns the old one red. The change is bounded on both sides. |
+| 2026-09-13 | Criteria approved by the human. Closed as `Implemented`. |
