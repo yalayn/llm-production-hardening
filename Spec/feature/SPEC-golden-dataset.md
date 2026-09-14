@@ -6,7 +6,7 @@
 | **featureId** | `golden-dataset` |
 | **State** | ✅ `Implemented` |
 | **Author** | Yordin Da Rocha |
-| **Date** | 2026-08-20 |
+| **Date** | 2026-09-01 |
 | **Depends on** | `SPEC-v1-naive` |
 | **Implementation directories** | `Python codebase` — adds `data/`, and a test |
 | **Integration base** | -- |
@@ -120,6 +120,7 @@ N/A — one directory.
 
 | Date | Change |
 |---|---|
-| 2026-08-20 | Drafted. The load-bearing open question is who owns the ground truth: if the agent both writes the cases and decides the right answers, the results table measures agreement with the agent. |
-| 2026-08-20 | Approved by the human in conversation, including the split of ground truth: the agent drafts, the human adjudicates at the criteria gate. Build started. |
-| 2026-08-20 | Criteria approved by the human, including the twenty edge-case answers. Closed as `Implemented`. |
+| 2026-09-01 | Drafted. The load-bearing open question is who owns the ground truth: if the agent both writes the cases and decides the right answers, the results table measures agreement with the agent. |
+| 2026-09-03 | Approved by the human in conversation, including the split of ground truth: the agent drafts, the human adjudicates at the criteria gate. Build started. |
+| 2026-09-03 | Criteria approved by the human, including the twenty edge-case answers. Closed as `Implemented`. |
+| 2026-09-04 | **Dates corrected.** Same defect as in `SPEC-v1-naive`: rows read 2026-08-20 against real dates of 2026-09-01 and 2026-09-03. |

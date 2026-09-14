@@ -187,9 +187,17 @@ surface of its own. Two standing rules:
 | The naive path, end to end | `v1_naive/extractor.py` | Import anything from `v2_hardened` |
 | Compare the two | `evals/` | Define domain shapes; alter either implementation |
 | Simulate provider behaviour | test stubs | Reach the network under any condition |
+| Declare which answers are correct | `data/golden.jsonl` | Import its vocabulary from an implementation |
 
 A responsibility landing outside its canonical location is a deviation: reported
 at audit time and, if accepted, recorded in 8.2 — never adopted silently.
+
+> **The last row looks like duplication and is not.** The golden dataset repeats
+> the category and urgency vocabulary instead of importing it from
+> `v2_hardened/schema.py`. That is deliberate: the dataset is the ground truth,
+> and a ground truth that derives its vocabulary from the code under test can no
+> longer detect that the code is wrong. Deduplicating it would remove the only
+> mechanism that catches a schema drifting away from the correct answers.
 
 ### 8.2 Debt and accepted exceptions
 
