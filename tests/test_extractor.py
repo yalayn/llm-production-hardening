@@ -5,6 +5,7 @@ import json
 import pytest
 from pydantic import ValidationError
 
+from v2_hardened.client import Reply
 from v2_hardened.extractor import extract_ticket
 from v2_hardened.schema import TicketExtraction
 
@@ -32,9 +33,9 @@ class StubClient:
         self._response = response
         self.calls = []
 
-    def complete(self, *, system: str, user: str, json_schema: dict) -> str:
+    def complete(self, *, system: str, user: str, json_schema: dict) -> Reply:
         self.calls.append({"system": system, "user": user, "json_schema": json_schema})
-        return self._response
+        return Reply(text=self._response, cost_usd=0.001)
 
 
 def test_returns_validated_triage_data_for_a_well_formed_response():
@@ -70,6 +71,9 @@ def test_rejects_a_category_the_schema_does_not_allow():
 
     with pytest.raises(ValidationError):
         extract_ticket(TICKET, client)
+
+    # It is retried now, and bounded. Both halves matter.
+    assert len(client.calls) == 3
 
 
 def test_rejects_a_response_that_is_not_json_at_all():

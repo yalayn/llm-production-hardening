@@ -20,6 +20,17 @@ the domain is a single transformation and the vocabulary that describes it.
 | `Category` | `v2_hardened/schema.py` | Closed set: `billing`, `technical`, `account`, `feature_request`, `other`, `unknown` |
 | `Urgency` | `v2_hardened/schema.py` | Closed set: `low`, `medium`, `high`, `critical`, `unknown` |
 
+### A result can be produced without consulting the model
+
+Since 2026-09-13 an extraction carries whether the provider was actually
+asked. Today only the empty-input guard sets it to false — the answer is
+`unknown` for both fields, which is what the golden dataset declares correct,
+reached without paying for a call the provider would have refused.
+
+It is a **private** attribute: the provider is never told the field exists, so
+it cannot appear in the schema sent with a request. The deterministic fallback
+will widen this distinction rather than invent a second one.
+
 **Ticket text** is domain input but not a modelled entity: it is an unstructured
 string supplied by the caller. It is also **untrusted** — see
 `ARCHITECTURE.md` section 7.

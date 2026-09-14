@@ -14,14 +14,13 @@ import traceback
 from typing import Any, Callable, Dict, List, Optional
 
 from v1_naive.extractor import extract_ticket as _v1_extract
-from v2_hardened.client import AnthropicClient
+from v2_hardened.client import PRICING, AnthropicClient
 from v2_hardened.extractor import extract_ticket as _v2_extract
 
 DATA = pathlib.Path(__file__).parent.parent / "data"
 
-# USD per million tokens, by model. Read from the response rather than assumed,
-# so a change of model cannot silently mis-price a run.
-PRICING = {"claude-sonnet-5": (3.0, 15.0)}
+# Pricing is owned by the client, where calls are made. Imported rather than
+# copied: two tables would drift and the run would mis-price itself in silence.
 
 
 class UsageRecorder:
