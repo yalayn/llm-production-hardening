@@ -4,7 +4,7 @@
 |---|---|
 | **SPEC** | `SPEC-hardening-core` |
 | **featureId** | `hardening-core` |
-| **State** | 📝 `Draft` |
+| **State** | 🔨 `In progress` |
 | **Author** | Yordin Da Rocha |
 | **Date** | 2026-09-13 |
 | **Depends on** | `SPEC-run-fidelity` |
@@ -150,3 +150,5 @@ N/A — one directory.
 | Date | Change |
 |---|---|
 | 2026-09-13 | Drafted. Two findings from the baseline runs are folded into existing elements rather than becoming an eighth: the closed schema bounds prompt injection (element 1), and empty input is guarded before paying for a call (element 3). |
+| 2026-09-13 | Approved by the human, including both open decisions: immediate retry, and a ceiling that counts real usage. |
+| 2026-09-13 | Audit raised a blocking warning and it was resolved by agreement: the canon had the client returning raw text, which cannot carry the cost the ceiling needs. The return is extended to carry text and cost, and `ARCHITECTURE.md` is updated in this build. |
