@@ -4,7 +4,7 @@
 |---|---|
 | **SPEC** | `SPEC-hardening-resilience` |
 | **featureId** | `hardening-resilience` |
-| **State** | 📝 `Draft` |
+| **State** | 🔨 `In progress` |
 | **Author** | Yordin Da Rocha |
 | **Date** | 2026-09-13 |
 | **Depends on** | `SPEC-hardening-core` |
@@ -138,3 +138,4 @@ N/A — one directory.
 | Date | Change |
 |---|---|
 | 2026-09-13 | Drafted. The cache key covers the prompt and model, not just the ticket, because a key that ignores them serves stale answers silently after an edit. The fallback is explicitly barred from catching programming errors. |
+| 2026-09-13 | Approved by the human, including both open decisions: the degraded result carries the full schema with `unknown`, and the log carries a hash of the input rather than its text. |
