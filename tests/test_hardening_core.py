@@ -19,6 +19,8 @@ BAD = json.dumps({"category": "refund_department", "urgency": "high", "entities"
 class StubClient:
     """Replies in sequence. Each reply carries its own cost, as the real one does."""
 
+    model = "claude-sonnet-5"
+
     def __init__(self, replies, cost=0.001, raises=None):
         self._replies = list(replies)
         self._cost = cost
@@ -39,7 +41,7 @@ class StubClient:
 def test_a_validation_failure_is_retried_and_the_second_reply_is_returned():
     client = StubClient([BAD, GOOD])
 
-    result = ex.extract_ticket(TICKET, client)
+    result = ex.extract_ticket(TICKET, client, log=lambda r: None)
 
     assert result.category == "billing"
     assert len(client.calls) == 2
@@ -48,9 +50,9 @@ def test_a_validation_failure_is_retried_and_the_second_reply_is_returned():
 def test_attempts_stop_at_the_maximum_when_nothing_ever_validates():
     client = StubClient([BAD] * 10)
 
-    with pytest.raises(ValidationError):
-        ex.extract_ticket(TICKET, client)
+    result = ex.extract_ticket(TICKET, client, log=lambda r: None)
 
+    assert result.outcome == "degraded"
     assert len(client.calls) == ex.MAX_ATTEMPTS
 
 
@@ -58,9 +60,11 @@ def test_a_transport_error_is_not_retried_here():
     """The SDK already retries those with backoff. Doing it again would duplicate it."""
     client = StubClient([], raises=ConnectionError("the socket died"))
 
-    with pytest.raises(ConnectionError):
-        ex.extract_ticket(TICKET, client)
+    result = ex.extract_ticket(TICKET, client, log=lambda r: None)
 
+    # It degrades now instead of raising, but the guarantee is unchanged: one
+    # call. Retrying it here would duplicate the backoff the SDK already does.
+    assert result.outcome == "degraded"
     assert len(client.calls) == 1
 
 
@@ -68,40 +72,40 @@ def test_no_further_attempt_is_made_once_the_cost_ceiling_is_reached():
     # One call costs more than the whole ceiling, so there can be no second.
     client = StubClient([BAD] * 10, cost=ex.COST_CEILING_USD)
 
-    with pytest.raises(ValidationError):
-        ex.extract_ticket(TICKET, client)
+    result = ex.extract_ticket(TICKET, client, log=lambda r: None)
 
+    assert result.outcome == "degraded"
     assert len(client.calls) == 1
 
 
 def test_empty_input_returns_unknown_without_calling_the_provider():
     client = StubClient([GOOD])
 
-    result = ex.extract_ticket("", client)
+    result = ex.extract_ticket("", client, log=lambda r: None)
 
     assert (result.category, result.urgency) == ("unknown", "unknown")
     assert client.calls == []
-    assert result.consulted_model is False
+    assert result.outcome == "empty_input"
 
 
 def test_whitespace_only_input_is_treated_the_same():
     client = StubClient([GOOD])
 
-    result = ex.extract_ticket("   \n\t ", client)
+    result = ex.extract_ticket("   \n\t ", client, log=lambda r: None)
 
     assert result.category == "unknown"
     assert client.calls == []
 
 
 def test_a_real_answer_is_marked_as_having_consulted_the_model():
-    result = ex.extract_ticket(TICKET, StubClient([GOOD]))
+    result = ex.extract_ticket(TICKET, StubClient([GOOD]), log=lambda r: None)
 
-    assert result.consulted_model is True
+    assert result.outcome == "answered"
 
 
 def test_the_marker_never_reaches_the_provider_schema():
     """It is a private attribute: the provider must not be told about it."""
-    assert "consulted" not in json.dumps(TicketExtraction.model_json_schema())
+    assert "outcome" not in json.dumps(TicketExtraction.model_json_schema())
 
 
 def test_the_real_client_sends_an_explicit_timeout():

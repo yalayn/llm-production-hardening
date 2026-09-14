@@ -35,6 +35,8 @@ class Reply(NamedTuple):
 
     text: str
     cost_usd: float
+    input_tokens: int = 0
+    output_tokens: int = 0
 
 
 def cost_of(model: str, input_tokens: int, output_tokens: int) -> float:
@@ -48,6 +50,10 @@ DEFAULT_MAX_TOKENS = 1024
 
 class LLMClient(Protocol):
     """One call to a language model. The only thing this project mocks."""
+
+    # Read-only. The cache key has to cover the model: the same question asked of
+    # a different model is a different question.
+    model: str
 
     def complete(self, *, system: str, user: str, json_schema: Dict[str, Any]) -> "Reply":
         """Return the model's raw text response and what the call cost.
@@ -75,13 +81,13 @@ class AnthropicClient:
     ) -> None:
         # Credentials resolve from the environment; nothing is read or stored here.
         self._api = api or anthropic.Anthropic()
-        self._model = model
+        self.model = model
         self._max_tokens = max_tokens
         self._timeout = timeout
 
     def complete(self, *, system: str, user: str, json_schema: Dict[str, Any]) -> Reply:
         response = self._api.messages.create(
-            model=self._model,
+            model=self.model,
             max_tokens=self._max_tokens,
             system=system,
             messages=[{"role": "user", "content": user}],
@@ -92,5 +98,7 @@ class AnthropicClient:
         cost = cost_of(response.model, usage.input_tokens, usage.output_tokens)
         for block in response.content:
             if block.type == "text":
-                return Reply(text=block.text, cost_usd=cost)
+                return Reply(text=block.text, cost_usd=cost,
+                             input_tokens=usage.input_tokens,
+                             output_tokens=usage.output_tokens)
         raise ValueError("the provider returned a response with no text block")

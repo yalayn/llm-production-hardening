@@ -53,9 +53,18 @@ class TicketExtraction(BaseModel):
 
     # Private on purpose: the provider is never told this field exists, so it
     # cannot appear in the schema sent with the request.
-    _consulted_model: bool = PrivateAttr(default=True)
+    #
+    # One marker with four values rather than several booleans: two ways to say
+    # the same thing is how documents and code start contradicting each other.
+    _outcome: str = PrivateAttr(default="answered")
 
     @property
-    def consulted_model(self) -> bool:
-        """False when this result was produced without calling the provider."""
-        return self._consulted_model
+    def outcome(self) -> str:
+        """How this result was reached.
+
+        `answered` -- the provider replied and the reply validated.
+        `cached` -- an identical question had already been answered.
+        `degraded` -- the provider could not be made to yield a valid reply.
+        `empty_input` -- there was nothing to ask about, so nothing was spent.
+        """
+        return self._outcome

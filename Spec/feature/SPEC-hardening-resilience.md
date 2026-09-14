@@ -4,7 +4,7 @@
 |---|---|
 | **SPEC** | `SPEC-hardening-resilience` |
 | **featureId** | `hardening-resilience` |
-| **State** | 🔨 `In progress` |
+| **State** | 👀 `In review` |
 | **Author** | Yordin Da Rocha |
 | **Date** | 2026-09-13 |
 | **Depends on** | `SPEC-hardening-core` |
@@ -38,8 +38,8 @@ one.
 
 `DOMAIN.md` already records that an extraction carries **whether the provider was
 consulted**. This spec **widens that same distinction** rather than adding a
-parallel one: the result now says which of three ways it was reached — answered,
-not consulted, or degraded.
+parallel one: the result now says which of four ways it was reached — answered,
+served from cache, degraded, or skipped as empty input.
 
 **Schema change:** no changes. The distinction stays a private attribute and
 never reaches the schema sent to the provider.
@@ -104,21 +104,21 @@ N/A — one directory.
 
 ## 8. Acceptance criteria
 
-- [ ] The same input twice produces one call and two identical results; the second
+- [x] The same input twice produces one call and two identical results; the second
       is marked as served from cache.
-- [ ] Changing the system prompt changes the key: the same ticket calls again
+- [x] Changing the system prompt changes the key: the same ticket calls again
       rather than serving the previous answer.
-- [ ] A failed extraction is not cached: the next identical input calls again.
-- [ ] When the provider never yields a valid reply, a degraded result is returned
+- [x] A failed extraction is not cached: the next identical input calls again.
+- [x] When the provider never yields a valid reply, a degraded result is returned
       rather than an exception, and it is marked degraded.
-- [ ] A programming error raised inside the extraction **propagates** and is not
+- [x] A programming error raised inside the extraction **propagates** and is not
       turned into a degraded result.
-- [ ] Every extraction writes exactly one log record carrying tokens, cost,
+- [x] Every extraction writes exactly one log record carrying tokens, cost,
       latency, attempts and outcome.
-- [ ] No log record contains the ticket text or any credential — verified by a
+- [x] No log record contains the ticket text or any credential — verified by a
       test that feeds a recognisable string and asserts its absence.
-- [ ] The naive version is unchanged.
-- [ ] No test reaches the network or spends budget.
+- [x] The naive version is unchanged.
+- [x] No test reaches the network or spends budget.
 
 ## 9. Risks and open decisions
 
@@ -139,3 +139,4 @@ N/A — one directory.
 |---|---|
 | 2026-09-13 | Drafted. The cache key covers the prompt and model, not just the ticket, because a key that ignores them serves stale answers silently after an edit. The fallback is explicitly barred from catching programming errors. |
 | 2026-09-13 | Approved by the human, including both open decisions: the degraded result carries the full schema with `unknown`, and the log carries a hash of the input rather than its text. |
+| 2026-09-13 | Built. Section 3 said "three ways" against four in section 5; corrected to four. The marker was widened rather than duplicated, as recorded when the previous spec closed. |
