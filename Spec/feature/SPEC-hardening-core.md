@@ -4,7 +4,7 @@
 |---|---|
 | **SPEC** | `SPEC-hardening-core` |
 | **featureId** | `hardening-core` |
-| **State** | 👀 `In review` |
+| **State** | ✅ `Implemented` |
 | **Author** | Yordin Da Rocha |
 | **Date** | 2026-09-13 |
 | **Depends on** | `SPEC-run-fidelity` |
@@ -153,3 +153,4 @@ N/A — one directory.
 | 2026-09-13 | Approved by the human, including both open decisions: immediate retry, and a ceiling that counts real usage. |
 | 2026-09-13 | Audit raised a blocking warning and it was resolved by agreement: the canon had the client returning raw text, which cannot carry the cost the ceiling needs. The return is extended to carry text and cost, and `ARCHITECTURE.md` is updated in this build. |
 | 2026-09-13 | Built. A first mutation check on the transport-error guarantee proved nothing: the call sits outside the retry `try`, so changing what the `except` catches is a no-op there. The real mutation — moving the call inside — does turn it red, and `ARCHITECTURE.md` now records the placement as the reason the guarantee holds. |
+| 2026-09-13 | Criteria approved by the human. Closed as `Implemented`. |
