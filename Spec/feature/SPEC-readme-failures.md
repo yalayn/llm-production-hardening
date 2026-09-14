@@ -4,7 +4,7 @@
 |---|---|
 | **SPEC** | `SPEC-readme-failures` |
 | **featureId** | `readme-failures` |
-| **State** | 👀 `In review` |
+| **State** | ✅ `Implemented` |
 | **Author** | Yordin Da Rocha |
 | **Date** | 2026-09-13 |
 | **Depends on** | `SPEC-run-fidelity` |
@@ -120,3 +120,4 @@ date. Nothing asks them to take a claim on faith.
 | 2026-09-13 | Drafted. Pulled forward from the final phase because the evidence lives only in git-ignored files and costs 0.27 USD plus a stable provider to reproduce. |
 | 2026-09-13 | Approved by the human in conversation. Build started. |
 | 2026-09-13 | Built. Mutation-verified: inflating a figure or deleting the admission about the prompt injections both turn the suite red. |
+| 2026-09-13 | Criteria approved by the human. Closed as `Implemented`. The feature was merged before this closing commit rather than after, so the state transition arrives as a follow-up instead of travelling inside the pull request. |
