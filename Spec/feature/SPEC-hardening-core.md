@@ -4,7 +4,7 @@
 |---|---|
 | **SPEC** | `SPEC-hardening-core` |
 | **featureId** | `hardening-core` |
-| **State** | 🔨 `In progress` |
+| **State** | 👀 `In review` |
 | **Author** | Yordin Da Rocha |
 | **Date** | 2026-09-13 |
 | **Depends on** | `SPEC-run-fidelity` |
@@ -117,20 +117,20 @@ N/A — one directory.
 
 ## 8. Acceptance criteria
 
-- [ ] Given a reply that fails validation and then a valid one, the valid result
+- [x] Given a reply that fails validation and then a valid one, the valid result
       is returned and exactly two calls were made.
-- [ ] Given replies that never validate, the attempts stop at the maximum and the
+- [x] Given replies that never validate, the attempts stop at the maximum and the
       number of calls equals it.
-- [ ] Transport errors are **not** retried by this code — verified by a stub that
+- [x] Transport errors are **not** retried by this code — verified by a stub that
       raises one and counts a single call.
-- [ ] Given accumulated cost at the ceiling, no further attempt is made.
-- [ ] An explicit timeout is passed to the provider — verified by inspecting what
+- [x] Given accumulated cost at the ceiling, no further attempt is made.
+- [x] An explicit timeout is passed to the provider — verified by inspecting what
       the stub received, not by waiting.
-- [ ] Given empty or whitespace input, `unknown`/`unknown` is returned, **no call
+- [x] Given empty or whitespace input, `unknown`/`unknown` is returned, **no call
       is made**, and the result is marked as not having consulted the model.
-- [ ] The naive version is unchanged by this spec — verified by the tests it
+- [x] The naive version is unchanged by this spec — verified by the tests it
       already has.
-- [ ] No test reaches the network or spends budget.
+- [x] No test reaches the network or spends budget.
 
 ## 9. Risks and open decisions
 
@@ -152,3 +152,4 @@ N/A — one directory.
 | 2026-09-13 | Drafted. Two findings from the baseline runs are folded into existing elements rather than becoming an eighth: the closed schema bounds prompt injection (element 1), and empty input is guarded before paying for a call (element 3). |
 | 2026-09-13 | Approved by the human, including both open decisions: immediate retry, and a ceiling that counts real usage. |
 | 2026-09-13 | Audit raised a blocking warning and it was resolved by agreement: the canon had the client returning raw text, which cannot carry the cost the ceiling needs. The return is extended to carry text and cost, and `ARCHITECTURE.md` is updated in this build. |
+| 2026-09-13 | Built. A first mutation check on the transport-error guarantee proved nothing: the call sits outside the retry `try`, so changing what the `except` catches is a no-op there. The real mutation — moving the call inside — does turn it red, and `ARCHITECTURE.md` now records the placement as the reason the guarantee holds. |

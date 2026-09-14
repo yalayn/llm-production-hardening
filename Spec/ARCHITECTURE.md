@@ -102,19 +102,27 @@ schema to the model, so it is prompt surface, not a code comment.
 
 ```python
 class {Client}(Protocol):
-    def complete(self, *, system: str, user: str, json_schema: Dict[str, Any]) -> str: ...
+    def complete(self, *, system: str, user: str, json_schema: Dict[str, Any]) -> Reply: ...
 ```
 
-Two properties are deliberate and must survive:
+Three properties are deliberate and must survive:
 
 - **Keyword-only arguments.** Call sites read as prose; argument order cannot be
   silently wrong.
-- **It returns raw text, not a validated object.** This is why the seam is placed
+- **The text stays raw, not a validated object.** This is why the seam is placed
   here at all. A stub can return malformed JSON, a value the schema forbids, or
   raise a provider error, and the validation and recovery logic under test still
   runs for real.
+- **The reply carries what the call cost.** A per-request ceiling cannot be
+  enforced from a string: usage lives in the provider response, on this side of
+  the seam. The cost rides along rather than being estimated above, because the
+  estimate for this project was wrong by a factor of two until a real call
+  corrected it.
 
-Transport errors are **not** swallowed at this layer.
+Transport errors are **not** swallowed at this layer, and the call sits **outside**
+the caller's retry `try` block so they cannot be retried by accident. The SDK
+already retries them with backoff; doing it again would duplicate a better-tested
+mechanism. Only validation failures are retried above.
 
 ### 4.3 Validate on arrival, even when the provider was constrained — `v2_hardened`
 

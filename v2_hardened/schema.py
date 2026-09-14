@@ -7,7 +7,7 @@ whole difference being measured.
 
 from typing import List, Literal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, PrivateAttr
 
 # Inlined as `enum` arrays in the JSON Schema. An Enum class would produce
 # `$ref`/`$defs` indirection instead, which buys nothing here and makes the
@@ -50,3 +50,12 @@ class TicketExtraction(BaseModel):
     suggested_action: str = Field(
         description="One short imperative sentence describing the next step."
     )
+
+    # Private on purpose: the provider is never told this field exists, so it
+    # cannot appear in the schema sent with the request.
+    _consulted_model: bool = PrivateAttr(default=True)
+
+    @property
+    def consulted_model(self) -> bool:
+        """False when this result was produced without calling the provider."""
+        return self._consulted_model
