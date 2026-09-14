@@ -20,16 +20,27 @@ the domain is a single transformation and the vocabulary that describes it.
 | `Category` | `v2_hardened/schema.py` | Closed set: `billing`, `technical`, `account`, `feature_request`, `other`, `unknown` |
 | `Urgency` | `v2_hardened/schema.py` | Closed set: `low`, `medium`, `high`, `critical`, `unknown` |
 
-### A result can be produced without consulting the model
+### How a result was reached
 
-Since 2026-09-13 an extraction carries whether the provider was actually
-asked. Today only the empty-input guard sets it to false — the answer is
-`unknown` for both fields, which is what the golden dataset declares correct,
-reached without paying for a call the provider would have refused.
+Every extraction carries one of four outcomes, on a single marker:
 
-It is a **private** attribute: the provider is never told the field exists, so
-it cannot appear in the schema sent with a request. The deterministic fallback
-will widen this distinction rather than invent a second one.
+| Outcome | Meaning |
+|---|---|
+| `answered` | The provider replied and the reply validated |
+| `cached` | An identical question had already been answered in this process |
+| `degraded` | The provider could not be made to yield a valid reply |
+| `empty_input` | There was nothing to ask about, so nothing was spent |
+
+`degraded` and `empty_input` both carry `unknown` in the two closed fields, which
+is the honest answer in each case rather than a placeholder. The caller needs no
+second shape; the marker is what separates them from an answer the model gave.
+
+**One marker with four values, not several booleans.** Two ways to say the same
+thing is how a codebase starts contradicting itself, and this project has spent
+more than one pass removing exactly that.
+
+It is a **private** attribute: the provider is never told the field exists, so it
+cannot appear in the schema sent with a request.
 
 **Ticket text** is domain input but not a modelled entity: it is an unstructured
 string supplied by the caller. It is also **untrusted** — see

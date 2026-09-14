@@ -4,7 +4,7 @@
 |---|---|
 | **SPEC** | `SPEC-hardening-resilience` |
 | **featureId** | `hardening-resilience` |
-| **State** | 👀 `In review` |
+| **State** | ✅ `Implemented` |
 | **Author** | Yordin Da Rocha |
 | **Date** | 2026-09-13 |
 | **Depends on** | `SPEC-hardening-core` |
@@ -140,3 +140,4 @@ N/A — one directory.
 | 2026-09-13 | Drafted. The cache key covers the prompt and model, not just the ticket, because a key that ignores them serves stale answers silently after an edit. The fallback is explicitly barred from catching programming errors. |
 | 2026-09-13 | Approved by the human, including both open decisions: the degraded result carries the full schema with `unknown`, and the log carries a hash of the input rather than its text. |
 | 2026-09-13 | Built. Section 3 said "three ways" against four in section 5; corrected to four. The marker was widened rather than duplicated, as recorded when the previous spec closed. |
+| 2026-09-13 | Criteria approved by the human. Closed as `Implemented`. |
