@@ -29,6 +29,8 @@ class StubClient:
     not, and the code under test still does its real work.
     """
 
+    model = "claude-sonnet-5"
+
     def __init__(self, response: str) -> None:
         self._response = response
         self.calls = []
@@ -41,7 +43,7 @@ class StubClient:
 def test_returns_validated_triage_data_for_a_well_formed_response():
     client = StubClient(WELL_FORMED)
 
-    result = extract_ticket(TICKET, client)
+    result = extract_ticket(TICKET, client, log=lambda r: None)
 
     assert isinstance(result, TicketExtraction)
     assert result.category == "billing"
@@ -52,7 +54,7 @@ def test_returns_validated_triage_data_for_a_well_formed_response():
 def test_asks_the_provider_to_constrain_the_response():
     client = StubClient(WELL_FORMED)
 
-    extract_ticket(TICKET, client)
+    extract_ticket(TICKET, client, log=lambda r: None)
 
     schema = client.calls[0]["json_schema"]
     assert schema["additionalProperties"] is False
@@ -66,18 +68,24 @@ def test_asks_the_provider_to_constrain_the_response():
 
 
 def test_rejects_a_category_the_schema_does_not_allow():
-    """The provider was asked to constrain its output. It can still fail to."""
+    """The provider was asked to constrain its output. It can still fail to.
+
+    Since the fallback landed, the rejection is no longer an exception: it is a
+    degraded result. What must not change is that the invalid value never reaches
+    the caller as if it were an answer.
+    """
     client = StubClient(WELL_FORMED.replace('"billing"', '"refund_department"'))
 
-    with pytest.raises(ValidationError):
-        extract_ticket(TICKET, client)
+    result = extract_ticket(TICKET, client, log=lambda r: None)
 
-    # It is retried now, and bounded. Both halves matter.
+    assert result.outcome == "degraded"
+    assert result.category != "refund_department"
     assert len(client.calls) == 3
 
 
 def test_rejects_a_response_that_is_not_json_at_all():
     client = StubClient("Sure! Here is the JSON you asked for:")
 
-    with pytest.raises(ValidationError):
-        extract_ticket(TICKET, client)
+    result = extract_ticket(TICKET, client, log=lambda r: None)
+
+    assert result.outcome == "degraded"

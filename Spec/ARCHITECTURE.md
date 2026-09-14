@@ -192,6 +192,8 @@ surface of its own. Two standing rules:
 | Define the output shape | `v2_hardened/schema.py` | Talk to the provider; know a prompt exists |
 | Talk to the provider | `v2_hardened/client.py` | Validate; interpret; decide about failures |
 | Compose, own the prompt, validate | `v2_hardened/extractor.py` | Build an SDK request; read the environment |
+| Avoid paying twice for one question | `v2_hardened/cache.py` | Store failures; key on the ticket alone |
+| Say what each call did | `v2_hardened/observability.py` | Record the ticket text, or any credential |
 | The naive path, end to end | `v1_naive/extractor.py` | Import anything from `v2_hardened` |
 | Compare the two | `evals/` | Define domain shapes; alter either implementation |
 | Simulate provider behaviour | test stubs | Reach the network under any condition |
