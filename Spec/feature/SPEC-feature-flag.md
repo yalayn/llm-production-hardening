@@ -4,7 +4,7 @@
 |---|---|
 | **SPEC** | `SPEC-feature-flag` |
 | **featureId** | `feature-flag` |
-| **State** | 📝 `Draft` |
+| **State** | 🔨 `In progress` |
 | **Author** | Yordin Da Rocha |
 | **Date** | 2026-09-13 |
 | **Depends on** | `SPEC-hardening-resilience` |
@@ -108,3 +108,4 @@ N/A — one directory.
 | Date | Change |
 |---|---|
 | 2026-09-13 | Drafted. `disabled` is a fifth value on the existing marker rather than a reuse of `degraded`: during an incident, "our switch worked" and "we are still broken" must not look the same in the logs. |
+| 2026-09-16 | Approved by the human, including the open decision: the cache does not serve while the flag is off. |
