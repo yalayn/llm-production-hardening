@@ -149,9 +149,23 @@ else.
 
 ## 5. Environment configuration
 
-There is no config module and no `.env` loading. The single environment-derived
-value is the API credential, resolved by the Anthropic SDK from the environment
-when the client is constructed with no arguments.
+There is no config module and no `.env` loading. Two values come from the
+environment:
+
+| Variable | Read | Purpose |
+|---|---|---|
+| the API credential | by the SDK, when the client is constructed | authentication |
+| `LLM_EXTRACTION_ENABLED` | **on every call** | the kill switch |
+
+The flag is read per call and never captured at import. A value read once needs a
+restart to take effect, and a switch that needs a restart is a deployment with
+extra steps — which is the one thing it exists not to be. It is **on by default**:
+forgetting to set it must not be what takes the feature down.
+
+Parsing is explicit against a set of recognised off values, because `"false"` and
+`"0"` are both truthy strings and a plain truthiness check would leave the switch
+permanently on. An unrecognised value also leaves it on, deliberately: a typo
+causing an outage is worse than a typo failing to prevent one.
 
 **No credential is ever read, stored, logged or passed as an argument by this
 code.** `.env` is git-ignored.
