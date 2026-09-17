@@ -22,7 +22,7 @@ the domain is a single transformation and the vocabulary that describes it.
 
 ### How a result was reached
 
-Every extraction carries one of four outcomes, on a single marker:
+Every extraction carries one of five outcomes, on a single marker:
 
 | Outcome | Meaning |
 |---|---|
@@ -30,10 +30,14 @@ Every extraction carries one of four outcomes, on a single marker:
 | `cached` | An identical question had already been answered in this process |
 | `degraded` | The provider could not be made to yield a valid reply |
 | `empty_input` | There was nothing to ask about, so nothing was spent |
+| `disabled` | The kill switch is on: nobody asked the provider |
 
-`degraded` and `empty_input` both carry `unknown` in the two closed fields, which
+`degraded`, `empty_input` and `disabled` all carry `unknown` in the two closed fields, which
 is the honest answer in each case rather than a placeholder. The caller needs no
 second shape; the marker is what separates them from an answer the model gave.
+
+`degraded` and `disabled` mean opposite things — asked and it failed, versus
+nobody asked — and during an incident they must not look the same in the logs.
 
 **One marker with four values, not several booleans.** Two ways to say the same
 thing is how a codebase starts contradicting itself, and this project has spent

@@ -5,7 +5,7 @@ from typing import Any, Callable, Optional
 
 from pydantic import ValidationError
 
-from v2_hardened import observability
+from v2_hardened import flags, observability
 from v2_hardened.cache import key_for
 from v2_hardened.client import LLMClient
 from v2_hardened.schema import TicketExtraction
@@ -71,6 +71,14 @@ def extract_ticket(
             **tokens,
         })
         return result
+
+    if not flags.extraction_enabled():
+        # The outermost switch: checked before the empty guard and before the
+        # cache, so an operator sees one clean signal in the logs rather than a
+        # mixture. A cached answer is a model answer, and the flag says not to
+        # use those right now.
+        return finish(_placeholder(
+            "disabled", "Route to a human: automated triage is switched off."))
 
     if not ticket_text.strip():
         # The provider rejects empty content with a 400, so this call cannot
