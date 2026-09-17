@@ -4,7 +4,7 @@
 |---|---|
 | **SPEC** | `SPEC-eval-scoring` |
 | **featureId** | `eval-scoring` |
-| **State** | 👀 `In review` |
+| **State** | ✅ `Implemented` |
 | **Author** | Yordin Da Rocha |
 | **Date** | 2026-09-16 |
 | **Depends on** | `SPEC-eval-runner`, `SPEC-golden-dataset` |
@@ -124,3 +124,6 @@ N/A — one directory.
 | 2026-09-16 | Approved by the human, including the open decision: both accuracy figures are reported, the one over all cases as the headline. |
 | 2026-09-16 | Built. The audit found that the outcome marker does not survive `model_dump()`, so the runner was losing it and the central rule of this spec could not have been applied. The runner now records it alongside latency. |
 | 2026-09-16 | A mutation exposed a weak test rather than weak code: "no partial credit" only covered the empty set, where exact and partial matching agree. Two cases added for a strict subset and for an invented extra. |
+| 2026-09-16 | Reviewing the diff found a second weak test of the same kind: the naive path was covered by deleting the `outcome` key, but the runner writes `null` and never deletes it. The real path now has its own test, and the null case is handled explicitly rather than relying on `.get`'s default, which that path never reaches. |
+| 2026-09-16 | **Process deviation, recorded not hidden:** the start-up commit moving this spec from `Ready` to `In progress` was skipped. The branch went straight from the draft to the build, so the spec was never formally in progress. The cause was ordinary: an audit finding looked urgent and the step was passed over on the way to it. |
+| 2026-09-16 | Criteria approved by the human. Closed as `Implemented`. |

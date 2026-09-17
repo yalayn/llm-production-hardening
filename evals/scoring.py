@@ -30,9 +30,12 @@ def score_case(record: Dict[str, Any], case: Optional[Dict[str, Any]]) -> Dict[s
         raise KeyError("result {!r} has no case in the dataset".format(record.get("id")))
 
     failed = not record.get("ok", False)
-    # Absent marker means the naive implementation, which has none: judged on what
-    # it returned.
-    answered = not failed and record.get("outcome", "answered") not in NON_ANSWERS
+    # The naive implementation has no marker, and the runner writes `null` for it.
+    # Absent and null both mean the same thing: judge it on what it returned. This
+    # is spelled out rather than left to `.get`'s default, which the real path
+    # never reaches -- a key that exists holding None does not fall back.
+    marker = record.get("outcome") or "answered"
+    answered = not failed and marker not in NON_ANSWERS
 
     expected = case["expected"]
     produced = record.get("result") or {}

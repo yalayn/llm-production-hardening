@@ -203,3 +203,15 @@ def test_inventing_an_extra_entity_is_wrong():
     )
 
     assert score["entities"] is False
+
+
+def test_a_null_marker_is_scored_like_an_absent_one():
+    """The runner writes `null` for the naive implementation, never deletes the
+    key -- so this, not the deleted-key case, is the path that actually runs."""
+    naive = result("a")
+    naive["outcome"] = None
+
+    score = scoring.score_case(naive, by_id()["a"])
+
+    assert score["answered"] is True
+    assert score["category"] is True
