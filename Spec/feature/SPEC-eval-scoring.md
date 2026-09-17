@@ -4,7 +4,7 @@
 |---|---|
 | **SPEC** | `SPEC-eval-scoring` |
 | **featureId** | `eval-scoring` |
-| **State** | 📝 `Draft` |
+| **State** | 👀 `In review` |
 | **Author** | Yordin Da Rocha |
 | **Date** | 2026-09-16 |
 | **Depends on** | `SPEC-eval-runner`, `SPEC-golden-dataset` |
@@ -92,17 +92,17 @@ N/A — one directory.
 
 ## 8. Acceptance criteria
 
-- [ ] Given a results file and the dataset, one case score per result, paired by id.
-- [ ] A result whose id is not in the dataset is reported as an error, not ignored.
-- [ ] `category` and `urgency` score on exact match; `entities` on set equality
+- [x] Given a results file and the dataset, one case score per result, paired by id.
+- [x] A result whose id is not in the dataset is reported as an error, not ignored.
+- [x] `category` and `urgency` score on exact match; `entities` on set equality
       ignoring case and order; `suggested_action` is never scored.
-- [ ] A `degraded` result matching the expected answer is **not** counted correct.
-- [ ] An `empty_input` result matching the expected answer **is** counted correct.
-- [ ] A result with no outcome marker — the naive implementation — is scored on
+- [x] A `degraded` result matching the expected answer is **not** counted correct.
+- [x] An `empty_input` result matching the expected answer **is** counted correct.
+- [x] A result with no outcome marker — the naive implementation — is scored on
       its values.
-- [ ] The summary reports per family and overall, and includes p50 and p95 latency.
-- [ ] The runner records per-case latency.
-- [ ] Scoring makes no provider call, and no test reaches the network.
+- [x] The summary reports per family and overall, and includes p50 and p95 latency.
+- [x] The runner records per-case latency.
+- [x] Scoring makes no provider call, and no test reaches the network.
 
 ## 9. Risks and open decisions
 
@@ -121,3 +121,6 @@ N/A — one directory.
 | Date | Change |
 |---|---|
 | 2026-09-16 | Drafted. The load-bearing rule is that a degraded result is never counted correct: four cases expect `unknown`, so naive scoring would reward a hardened version for failing completely. |
+| 2026-09-16 | Approved by the human, including the open decision: both accuracy figures are reported, the one over all cases as the headline. |
+| 2026-09-16 | Built. The audit found that the outcome marker does not survive `model_dump()`, so the runner was losing it and the central rule of this spec could not have been applied. The runner now records it alongside latency. |
+| 2026-09-16 | A mutation exposed a weak test rather than weak code: "no partial credit" only covered the empty set, where exact and partial matching agree. Two cases added for a strict subset and for an invented extra. |
