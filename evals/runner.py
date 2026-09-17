@@ -15,6 +15,7 @@ import traceback
 from typing import Any, Callable, Dict, List, Optional
 
 from v1_naive.extractor import extract_ticket as _v1_extract
+from v1_structured.extractor import extract_ticket as _v1s_extract
 from v2_hardened.client import PRICING, AnthropicClient
 from v2_hardened.extractor import extract_ticket as _v2_extract
 
@@ -76,12 +77,17 @@ def _run_v1(text: str, recorder: UsageRecorder) -> Any:
     return _v1_extract(text, recorder)
 
 
+def _run_v1_structured(text: str, recorder: UsageRecorder) -> Any:
+    return _v1s_extract(text, recorder)
+
+
 def _run_v2(text: str, recorder: UsageRecorder) -> Any:
     return _v2_extract(text, AnthropicClient(api=recorder))
 
 
 IMPLEMENTATIONS: Dict[str, Callable[[str, UsageRecorder], Any]] = {
     "v1_naive": _run_v1,
+    "v1_structured": _run_v1_structured,
     "v2_hardened": _run_v2,
 }
 
