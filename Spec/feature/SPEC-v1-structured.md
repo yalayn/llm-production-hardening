@@ -4,7 +4,7 @@
 |---|---|
 | **SPEC** | `SPEC-v1-structured` |
 | **featureId** | `v1-structured` |
-| **State** | 📝 `Draft` |
+| **State** | 🔨 `In progress` |
 | **Author** | Yordin Da Rocha |
 | **Date** | 2026-09-16 |
 | **Depends on** | `SPEC-v1-naive`, `SPEC-eval-scoring` |
@@ -121,3 +121,4 @@ before inference. None of these is what structured output addresses.
 | Date | Change |
 |---|---|
 | 2026-09-16 | Drafted. Exists to answer the strongest objection the repository faces with a column of numbers rather than a paragraph. |
+| 2026-09-16 | Approved by the human, including the open decision: the three vocabularies stay independent, with `ARCHITECTURE.md` explaining why in one place. Build started. |
