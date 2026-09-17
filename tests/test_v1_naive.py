@@ -107,7 +107,7 @@ def test_does_not_import_from_the_hardened_implementation():
     Checked against the AST rather than the raw text: a grep would also fire on a
     comment explaining why the duplication is deliberate, which is worth writing.
     """
-    from tests.test_v1_structured import imported_modules
+    from tests.helpers import imported_modules
     from v1_naive import extractor
 
     assert "v2_hardened" not in imported_modules(extractor)

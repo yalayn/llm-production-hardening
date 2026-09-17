@@ -5,6 +5,7 @@ from unittest import mock
 
 import pytest
 
+from tests.helpers import imported_modules
 from v1_structured.extractor import extract_ticket
 
 TICKET = "You charged me twice for invoice INV-4471."
@@ -107,22 +108,3 @@ def test_the_runner_can_run_it_by_name():
 
     assert "v1_structured" in runner.IMPLEMENTATIONS
     assert callable(runner.IMPLEMENTATIONS["v1_structured"])
-
-def imported_modules(module) -> set:
-    """The modules a file actually imports, read from its AST.
-
-    Grepping the source conflates a mention with an import, and these files
-    explain in their docstrings why they duplicate each other -- which is worth
-    keeping and is not a dependency.
-    """
-    import ast
-    import pathlib as _p
-
-    tree = ast.parse(_p.Path(module.__file__).read_text(encoding="utf-8"))
-    names = set()
-    for node in ast.walk(tree):
-        if isinstance(node, ast.Import):
-            names.update(alias.name.split(".")[0] for alias in node.names)
-        elif isinstance(node, ast.ImportFrom) and node.module:
-            names.add(node.module.split(".")[0])
-    return names
