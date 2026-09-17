@@ -4,7 +4,7 @@
 |---|---|
 | **SPEC** | `SPEC-v1-structured` |
 | **featureId** | `v1-structured` |
-| **State** | 🔨 `In progress` |
+| **State** | 👀 `In review` |
 | **Author** | Yordin Da Rocha |
 | **Date** | 2026-09-16 |
 | **Depends on** | `SPEC-v1-naive`, `SPEC-eval-scoring` |
@@ -91,18 +91,18 @@ before inference. None of these is what structured output addresses.
 
 ## 8. Acceptance criteria
 
-- [ ] Given a stub returning well-formed JSON, a `dict` with the four expected
+- [x] Given a stub returning well-formed JSON, a `dict` with the four expected
       keys is returned.
-- [ ] The request carries a response-format constraint — verified by inspecting
+- [x] The request carries a response-format constraint — verified by inspecting
       what the stub received.
-- [ ] Given a reply whose category is outside the declared set, the value is
+- [x] Given a reply whose category is outside the declared set, the value is
       returned unchanged: nothing validates on arrival.
-- [ ] Given a transport error, it propagates: there is no retry and no fallback.
-- [ ] `v1_structured` imports nothing from `v1_naive` or `v2_hardened` — verified
+- [x] Given a transport error, it propagates: there is no retry and no fallback.
+- [x] `v1_structured` imports nothing from `v1_naive` or `v2_hardened` — verified
       by a test, not by inspection.
-- [ ] The runner can run it by name, alongside the other two.
-- [ ] Neither existing implementation is changed by this spec.
-- [ ] No test reaches the network or spends budget.
+- [x] The runner can run it by name, alongside the other two.
+- [x] Neither existing implementation is changed by this spec.
+- [x] No test reaches the network or spends budget.
 
 ## 9. Risks and open decisions
 
@@ -122,3 +122,4 @@ before inference. None of these is what structured output addresses.
 |---|---|
 | 2026-09-16 | Drafted. Exists to answer the strongest objection the repository faces with a column of numbers rather than a paragraph. |
 | 2026-09-16 | Approved by the human, including the open decision: the three vocabularies stay independent, with `ARCHITECTURE.md` explaining why in one place. Build started. |
+| 2026-09-16 | Built. The independence guard was grepping raw text, so it fired on a docstring explaining why the duplication is deliberate — a mention is not an import. Both guards now read the AST; the naive version's had the same latent weakness and was fixed with it. |

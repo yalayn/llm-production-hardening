@@ -26,12 +26,23 @@ Two modules implement the same operation and are held to **different** canons.
 That difference is the repository's entire reason to exist, so it is canon — not
 drift, not debt, not something to reconcile.
 
-| | `v1_naive` | `v2_hardened` |
-|---|---|---|
-| Output shape | Described in prose inside the prompt | A Pydantic model with `extra="forbid"` |
-| Response handling | `json.loads`, returned unchecked | Validated on arrival, always |
-| Provider seam | None — a `client` parameter with a real default | A one-method `Protocol` returning raw text |
-| Failure handling | Propagates to the caller | Arrives under its own specs |
+| | `v1_naive` | `v1_structured` | `v2_hardened` |
+|---|---|---|---|
+| Output shape | Described in prose inside the prompt | A JSON Schema sent with the request | A Pydantic model with `extra="forbid"` |
+| Response handling | `json.loads`, returned unchecked | `json.loads`, returned unchecked | Validated on arrival, always |
+| Provider seam | None — a `client` parameter with a real default | None — the same | A one-method `Protocol` returning `Reply` |
+| Failure handling | Propagates to the caller | Propagates to the caller | Degrades, marked, never raises at the model |
+
+`v1_structured` is the naive version with **one call changed**. It exists to
+answer, with numbers rather than prose, the objection that native structured
+output is already enough — and to show where "nothing else" ends.
+
+**Three independent declarations of the category vocabulary exist on purpose** —
+in `data/golden.jsonl`, in `v2_hardened/schema.py`, and in `v1_structured`. This
+reads like duplication and is not: each is a separate statement of what its author
+believed, so three that agree are evidence, and the day two stop agreeing the eval
+reports it. A shared constant would make that day invisible. **Do not consolidate
+them.**
 
 **Adding a safety net to `v1_naive` is a defect, not an improvement.** If a future
 change makes the two modules converge, the comparison silently stops measuring

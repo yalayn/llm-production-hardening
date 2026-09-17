@@ -102,12 +102,15 @@ def test_builds_a_real_client_when_none_is_given():
 
 
 def test_does_not_import_from_the_hardened_implementation():
-    """Guards the comparison itself, which erodes silently if the two converge."""
-    source = (
-        __import__("pathlib").Path(__file__).parent.parent / "v1_naive" / "extractor.py"
-    ).read_text()
+    """Guards the comparison itself, which erodes silently if the two converge.
 
-    assert "v2_hardened" not in source
+    Checked against the AST rather than the raw text: a grep would also fire on a
+    comment explaining why the duplication is deliberate, which is worth writing.
+    """
+    from tests.test_v1_structured import imported_modules
+    from v1_naive import extractor
+
+    assert "v2_hardened" not in imported_modules(extractor)
 
 
 def test_reads_the_text_block_when_the_response_leads_with_thinking():
