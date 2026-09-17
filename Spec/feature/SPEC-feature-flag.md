@@ -4,7 +4,7 @@
 |---|---|
 | **SPEC** | `SPEC-feature-flag` |
 | **featureId** | `feature-flag` |
-| **State** | 👀 `In review` |
+| **State** | ✅ `Implemented` |
 | **Author** | Yordin Da Rocha |
 | **Date** | 2026-09-13 |
 | **Depends on** | `SPEC-hardening-resilience` |
@@ -110,3 +110,4 @@ N/A — one directory.
 | 2026-09-13 | Drafted. `disabled` is a fifth value on the existing marker rather than a reuse of `degraded`: during an incident, "our switch worked" and "we are still broken" must not look the same in the logs. |
 | 2026-09-16 | Approved by the human, including the open decision: the cache does not serve while the flag is off. |
 | 2026-09-16 | Built. `ARCHITECTURE.md` section 5 said the credential was the only environment-derived value; this build made that false, and the audit caught it before the code did rather than after. |
+| 2026-09-16 | Criteria approved by the human. Closed as `Implemented`. All seven hardening elements are now built. |
