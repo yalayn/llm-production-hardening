@@ -10,6 +10,7 @@ import argparse
 import json
 import pathlib
 import sys
+import time
 import traceback
 from typing import Any, Callable, Dict, List, Optional
 
@@ -115,15 +116,21 @@ def run(implementation, cases, out_path, budget: float, recorder=None) -> Dict[s
                 break
 
             before = len(recorder.calls)
+            started = time.monotonic()
             record: Dict[str, Any] = {"id": case["id"], "family": case["family"]}
             try:
                 result = implementation(ticket_text(case), recorder)
                 record["ok"] = True
                 record["result"] = result.model_dump() if hasattr(result, "model_dump") else result
+                # The marker is a private attribute, so it does not survive
+                # model_dump(). Without it here, scoring cannot tell a degraded
+                # result from a real one -- and four cases expect `unknown`.
+                record["outcome"] = getattr(result, "outcome", None)
                 record["error"] = None
             except Exception as exc:
                 record["ok"] = False
                 record["result"] = None
+                record["outcome"] = None
                 record["error"] = {"type": type(exc).__name__, "traceback": traceback.format_exc()}
                 failures += 1
 
@@ -132,6 +139,7 @@ def run(implementation, cases, out_path, budget: float, recorder=None) -> Dict[s
             # The raw reply of the last call: for a failure this is the only way to
             # see what the model actually said.
             record["raw"] = calls[-1]["raw"] if calls else None
+            record["latency_ms"] = round((time.monotonic() - started) * 1000, 1)
             handle.write(json.dumps(record, ensure_ascii=False) + "\n")
             ran += 1
 

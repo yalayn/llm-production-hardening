@@ -209,7 +209,8 @@ surface of its own. Two standing rules:
 | Avoid paying twice for one question | `v2_hardened/cache.py` | Store failures; key on the ticket alone |
 | Say what each call did | `v2_hardened/observability.py` | Record the ticket text, or any credential |
 | The naive path, end to end | `v1_naive/extractor.py` | Import anything from `v2_hardened` |
-| Compare the two | `evals/` | Define domain shapes; alter either implementation |
+| Run one implementation over the dataset | `evals/runner.py` | Retry, validate, or alter a result |
+| Judge a run against the dataset | `evals/scoring.py` | Make a provider call; change what a run recorded |
 | Simulate provider behaviour | test stubs | Reach the network under any condition |
 | Declare which answers are correct | `data/golden.jsonl` | Import its vocabulary from an implementation |
 
