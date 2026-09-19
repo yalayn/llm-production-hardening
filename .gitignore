@@ -4,3 +4,7 @@ __pycache__/
 .pytest_cache/
 .env
 evals/results/
+
+# Build artefacts and OS noise
+*.egg-info/
+.DS_Store
