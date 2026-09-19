@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "llm-production-hardening"
 version = "0.1.0"
@@ -13,6 +17,13 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest==8.4.2"]
+
+[tool.setuptools]
+# Declared explicitly. Automatic discovery fails here and should: the repository
+# root holds Spec/ and data/ alongside the code, and setuptools refuses to guess
+# which of them is a package. Listing them is also the honest answer to "what
+# does this project actually ship".
+packages = ["v1_naive", "v1_structured", "v2_hardened", "evals"]
 
 [tool.pytest.ini_options]
 # Puts the repo root on sys.path so tests import the packages directly.
