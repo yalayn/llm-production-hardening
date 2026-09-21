@@ -217,9 +217,17 @@ def test_the_final_runs_are_not_ignored(name):
     assert _is_ignored("evals/results/" + name) is False
 
 
-@pytest.mark.parametrize("name", ["v1-run1.jsonl", "smoke-structured.jsonl", "run.jsonl"])
-def test_the_exploratory_runs_are_still_ignored(name):
-    """Working notes, not evidence. Committing them would bury the four that matter."""
+@pytest.mark.parametrize("name", ["v1-run1.jsonl", "v1-run2.jsonl"])
+def test_the_baseline_runs_the_readme_quotes_are_not_ignored(name):
+    """The failure section quotes their traces. A quotation nobody can check is
+    a quotation asking to be taken on faith, and the test guarding it skips on
+    a fresh clone precisely because the file it needs is absent."""
+    assert _is_ignored("evals/results/" + name) is False
+
+
+@pytest.mark.parametrize("name", ["smoke-structured.jsonl", "run.jsonl"])
+def test_the_working_notes_are_still_ignored(name):
+    """Nothing cites these. Committing them would bury the runs that matter."""
     assert _is_ignored("evals/results/" + name) is True
 
 
