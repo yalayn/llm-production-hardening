@@ -6,7 +6,7 @@
 
 | Field | Value |
 |---|---|
-| **Covers** | All Python in this repository: `v1_naive/`, `v2_hardened/`, `evals/`, `tests/` |
+| **Covers** | All Python in this repository: `v1_naive/`, `v1_structured/`, `v2_hardened/`, `evals/`, `tests/` |
 | **Role** | One codebase, one set of conventions, two modules held to different canons |
 | **Provenance** | Extracted from the project's own code |
 | **Extracted** | 2026-08-20 · rescoped from `V2_HARDENED_ARCHITECTURE.md` |
