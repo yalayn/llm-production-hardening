@@ -4,7 +4,7 @@
 |---|---|
 | **SPEC** | `SPEC-eval-fidelity` |
 | **featureId** | `eval-fidelity` |
-| **State** | 📝 `Draft` |
+| **State** | 🔨 `In progress` |
 | **Author** | Yordin Da Rocha |
 | **Date** | 2026-09-19 |
 | **Depends on** | `SPEC-eval-runner`, `SPEC-eval-scoring`, `SPEC-v1-structured`, `SPEC-hardening-resilience` |
@@ -194,3 +194,4 @@ N/A — one directory.
 | Date | Change |
 |---|---|
 | 2026-09-19 | Drafted after scoring the three final runs. Superseded figures, measured without a cache: `v1_naive` 46 of 50 failed, category 8 %, entities 6 %, 2.70 USD per 1,000; `v1_structured` 2 failed, category 90 %, entities 36 %, 3.48 USD per 1,000; `v2_hardened` 0 failed, category 96 %, entities 76 %, 4.15 USD per 1,000. Median input tokens 203 / 455 / 730. |
+| 2026-09-20 | Approved by the human, with both forks decided: the diagnostic controls for the whole prompt surface, and the final runs are committed as evidence. Build started. |
