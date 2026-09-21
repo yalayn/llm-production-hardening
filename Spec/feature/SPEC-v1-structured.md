@@ -4,7 +4,7 @@
 |---|---|
 | **SPEC** | `SPEC-v1-structured` |
 | **featureId** | `v1-structured` |
-| **State** | 👀 `In review` |
+| **State** | ✅ `Implemented` |
 | **Author** | Yordin Da Rocha |
 | **Date** | 2026-09-16 |
 | **Depends on** | `SPEC-v1-naive`, `SPEC-eval-scoring` |
@@ -123,3 +123,6 @@ before inference. None of these is what structured output addresses.
 | 2026-09-16 | Drafted. Exists to answer the strongest objection the repository faces with a column of numbers rather than a paragraph. |
 | 2026-09-16 | Approved by the human, including the open decision: the three vocabularies stay independent, with `ARCHITECTURE.md` explaining why in one place. Build started. |
 | 2026-09-16 | Built. The independence guard was grepping raw text, so it fired on a docstring explaining why the duplication is deliberate — a mention is not an import. Both guards now read the AST; the naive version's had the same latent weakness and was fixed with it. |
+| 2026-09-16 | Reviewing the diff moved the import-guard helper into `tests/helpers.py`: it had been sitting below the tests that used it, with another test module importing it from there. |
+| 2026-09-16 | Criteria approved by the human. Closed as `Implemented`. Merged before this closing commit, so the state transition arrives as a follow-up — the second time in this project. |
+| 2026-09-20 | Two stale status lines found while preparing the follow-up. `ARCHITECTURE.md` listed the directories it covers without `v1_structured/`, although section 0 gives it a full column of canon. `DOMAIN.md` still described `evals` as a run harness only, with scoring "still to come" — `SPEC-eval-scoring` closed four days earlier without updating the one document that owns implementation status. Both corrected here. |
