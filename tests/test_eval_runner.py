@@ -110,9 +110,10 @@ def test_an_unknown_implementation_exits_listing_the_valid_names(capsys):
     assert "v1_naive" in capsys.readouterr().err
 
 
-def test_every_registered_implementation_is_callable():
-    assert set(runner.IMPLEMENTATIONS) >= {"v1_naive", "v2_hardened"}
-    assert all(callable(v) for v in runner.IMPLEMENTATIONS.values())
+def test_every_version_the_comparison_needs_is_registered():
+    """The factory contract itself is covered in test_eval_fidelity."""
+    assert set(runner.IMPLEMENTATIONS) >= {
+        "v1_naive", "v1_structured", "v1_structured_described", "v2_hardened"}
 
 
 def test_the_budget_is_enforced_against_the_recorder_the_implementation_writes_to(tmp_path):

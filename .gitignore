@@ -3,7 +3,10 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 .env
-evals/results/
+# Exploratory runs are working notes. The runs the README cites are committed,
+# so a reader can recompute every figure without paying for a run of their own.
+evals/results/*
+!evals/results/final-*.jsonl
 
 # Build artefacts and OS noise
 *.egg-info/
