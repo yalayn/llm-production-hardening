@@ -4,7 +4,7 @@
 |---|---|
 | **SPEC** | `SPEC-eval-fidelity` |
 | **featureId** | `eval-fidelity` |
-| **State** | 🔨 `In progress` |
+| **State** | 👀 `In review` |
 | **Author** | Yordin Da Rocha |
 | **Date** | 2026-09-19 |
 | **Depends on** | `SPEC-eval-runner`, `SPEC-eval-scoring`, `SPEC-v1-structured`, `SPEC-hardening-resilience` |
@@ -157,23 +157,24 @@ N/A — one directory.
 
 ## 8. Acceptance criteria
 
-- [ ] Given a run over the golden dataset, `v2_hardened` produces exactly one
+- [x] Given a run over the golden dataset, `v2_hardened` produces exactly one
       record whose `outcome` is `cached`, and it is `edge-duplicate-of-billing`.
-- [ ] That record carries no usage: the cache hit cost nothing.
-- [ ] Two consecutive runs in the same process do not share a cache — the second
+- [x] That record carries no usage: the cache hit cost nothing.
+- [x] Two consecutive runs in the same process do not share a cache — the second
       run's first case is a miss.
-- [ ] `v1_naive` and `v1_structured` are unchanged: their factories return the
+- [x] `v1_naive` and `v1_structured` are unchanged: their factories return the
       same function, and no cache reaches them.
-- [ ] For the same ticket, the request `v1_structured_described` sends and the
+- [x] For the same ticket, the request `v1_structured_described` sends and the
       request `v2_hardened` sends are equal on `model`, `max_tokens`, `system`,
       `messages` and `output_config`.
-- [ ] `v1_structured_described` validates nothing, retries nothing and degrades
+- [x] `v1_structured_described` validates nothing, retries nothing and degrades
       nothing: given a reply that satisfies no schema it raises, exactly as
       `v1_structured` does.
-- [ ] `git check-ignore evals/results/final-v2-hardened.jsonl` reports it is not
-      ignored, and the exploratory runs are still ignored.
-- [ ] `tests/test_readme_figures.py` no longer skips on a clean checkout.
-- [ ] No test reaches the network or spends budget.
+- [x] `git check-ignore evals/results/final-v2-hardened.jsonl` reports it is not
+      ignored, and so do the two baseline runs the README quotes. The working
+      notes -- smoke tests and ad-hoc output -- are still ignored.
+- [x] `tests/test_readme_figures.py` no longer skips on a clean checkout.
+- [x] No test reaches the network or spends budget.
 
 ## 9. Risks and open decisions
 
@@ -195,3 +196,7 @@ N/A — one directory.
 |---|---|
 | 2026-09-19 | Drafted after scoring the three final runs. Superseded figures, measured without a cache: `v1_naive` 46 of 50 failed, category 8 %, entities 6 %, 2.70 USD per 1,000; `v1_structured` 2 failed, category 90 %, entities 36 %, 3.48 USD per 1,000; `v2_hardened` 0 failed, category 96 %, entities 76 %, 4.15 USD per 1,000. Median input tokens 203 / 455 / 730. |
 | 2026-09-20 | Approved by the human, with both forks decided: the diagnostic controls for the whole prompt surface, and the final runs are committed as evidence. Build started. |
+| 2026-09-21 | Built. Six mutations, each red for its own reason: removing the cache, sharing it between runs, sending the bare schema, sending the naive prompt, validating in the diagnostic, and re-ignoring the runs. |
+| 2026-09-21 | **Section 5.3 was wrong and was corrected mid-build.** It un-ignored only `final-*.jsonl`, so `tests/test_readme_figures.py` still had nothing to read and went on skipping — the criterion could not be met by the rule written to meet it. Both baseline runs the README quotes are now tracked, and the criterion was verified on a real clone of the branch rather than on the working tree. |
+| 2026-09-21 | **Process note:** a mutation was restored with `git checkout` on a file whose changes had never been committed, which discarded the runner's implementation. Re-applied, and the remaining mutations were run only after committing. |
+| 2026-09-21 | Criteria met, suite green at 128. Awaiting human approval. |
