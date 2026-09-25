@@ -79,7 +79,7 @@ to any implementation.
 | `v2_hardened` | Implemented — owns the domain definitions |
 | `v1_naive` | **Implemented** (2026-08-20). Deliberately does **not** import these definitions: it describes the target shape in prose inside its prompt, which is a large part of what is being measured |
 | `v1_structured` | **Implemented** (2026-09-16). Declares its own JSON Schema as a literal, for the same reason: three independent statements of the vocabulary that agree are evidence |
-| `evals` | **Implemented** — harness (2026-09-08) and scoring (2026-09-16). Runs the three implementations against the golden dataset and scores what they returned; consumes the domain, does not define it. The comparative table in the README is still to come |
+| `evals` | **Implemented** — harness (2026-09-08), scoring (2026-09-16), measurement fidelity (2026-09-24). Runs the three implementations against the golden dataset and scores what they returned; consumes the domain, does not define it. `diagnostic.py` is the one module that **imports** these definitions instead of restating them: it is a control, and a control exists to be identical. The comparative table in the README is still to come |
 
 ## 5. Growth considerations
 

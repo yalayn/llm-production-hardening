@@ -3,4 +3,14 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 .env
-evals/results/
+# Every run the README cites is committed, so a reader can recompute each
+# figure without paying for a run of their own: the final comparison, and the
+# two baseline runs whose traces the failure section quotes. Smoke tests and
+# ad-hoc output stay out -- they are working notes and nothing depends on them.
+evals/results/*
+!evals/results/final-*.jsonl
+!evals/results/v1-run*.jsonl
+
+# Build artefacts and OS noise
+*.egg-info/
+.DS_Store

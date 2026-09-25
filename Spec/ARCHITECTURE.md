@@ -69,6 +69,7 @@ measures nothing.
 
 ```
 v1_naive/       the typical implementation
+v1_structured/  the same, with the provider asked to constrain the reply
 v2_hardened/    the production-hardened one
 evals/          the comparison harness
 data/           the golden dataset -- data, not code
@@ -222,11 +223,22 @@ surface of its own. Two standing rules:
 | The naive path, end to end | `v1_naive/extractor.py` | Import anything from `v2_hardened` |
 | Run one implementation over the dataset | `evals/runner.py` | Retry, validate, or alter a result |
 | Judge a run against the dataset | `evals/scoring.py` | Make a provider call; change what a run recorded |
+| Isolate the prompt surface from the seven elements | `evals/diagnostic.py` | Validate, retry, degrade, or declare a vocabulary of its own |
 | Simulate provider behaviour | test stubs | Reach the network under any condition |
 | Declare which answers are correct | `data/golden.jsonl` | Import its vocabulary from an implementation |
 
 A responsibility landing outside its canonical location is a deviation: reported
 at audit time and, if accepted, recorded in 8.2 — never adopted silently.
+
+> **One row inverts the rule the others follow.** `evals/diagnostic.py` is
+> forbidden from declaring its own schema and prompt: it imports both from
+> `v2_hardened`. Every implementation states its vocabulary independently so
+> that the day two disagree the eval reports it. A control exists for the
+> opposite reason — to be identical in the dimension it holds fixed — and a
+> copy that drifted would stop being a control while still producing a
+> number. It is an instrument, not a fourth thing this repository
+> recommends, which is why it lives in `evals/` and why section 0 keeps
+> three columns.
 
 > **The last row looks like duplication and is not.** The golden dataset repeats
 > the category and urgency vocabulary instead of importing it from

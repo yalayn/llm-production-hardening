@@ -14,8 +14,10 @@ import time
 import traceback
 from typing import Any, Callable, Dict, List, Optional
 
+from evals.diagnostic import extract_ticket as _diagnostic_extract
 from v1_naive.extractor import extract_ticket as _v1_extract
 from v1_structured.extractor import extract_ticket as _v1s_extract
+from v2_hardened.cache import InMemoryCache
 from v2_hardened.client import PRICING, AnthropicClient
 from v2_hardened.extractor import extract_ticket as _v2_extract
 
@@ -28,9 +30,9 @@ DATA = pathlib.Path(__file__).parent.parent / "data"
 class UsageRecorder:
     """Stands in for the SDK client and remembers the usage of every response.
 
-    Both implementations take an injected client, so the same recorder serves
-    both: the naive one receives it directly, the hardened one receives it
-    wrapped. Neither is modified, and neither knows it is being measured.
+    Every version takes an injected client, so one recorder serves them all: the
+    naive paths receive it directly, the hardened one receives it wrapped. None
+    is modified, and none knows it is being measured.
     """
 
     def __init__(self, api: Any = None) -> None:
@@ -73,22 +75,44 @@ def _text_of(response: Any) -> Optional[str]:
     return None
 
 
-def _run_v1(text: str, recorder: UsageRecorder) -> Any:
-    return _v1_extract(text, recorder)
+Implementation = Callable[[str, UsageRecorder], Any]
 
 
-def _run_v1_structured(text: str, recorder: UsageRecorder) -> Any:
-    return _v1s_extract(text, recorder)
+def _direct(extract: Callable[..., Any]) -> Callable[[], Implementation]:
+    """A version with nothing to compose: the same call, every run."""
+    def build() -> Implementation:
+        def run_case(text: str, recorder: UsageRecorder) -> Any:
+            return extract(text, recorder)
+        return run_case
+    return build
 
 
-def _run_v2(text: str, recorder: UsageRecorder) -> Any:
-    return _v2_extract(text, AnthropicClient(api=recorder))
+def _build_v2() -> Implementation:
+    """The hardened version, composed with a cache that lives for one run.
+
+    The cache is built here rather than at module level on purpose. A
+    module-level cache would survive between runs in the same process: a second
+    run would start warm, and one test's entries would reach another's. The
+    lifetime of a cache is a decision, and here the decision is one run.
+
+    One run is also the honest floor of what element 4 is worth. A deployment
+    holds a cache across requests and hits it far more often than the golden
+    dataset's single duplicate allows.
+    """
+    cache = InMemoryCache()
+
+    def run_case(text: str, recorder: UsageRecorder) -> Any:
+        return _v2_extract(text, AnthropicClient(api=recorder), cache=cache)
+    return run_case
 
 
-IMPLEMENTATIONS: Dict[str, Callable[[str, UsageRecorder], Any]] = {
-    "v1_naive": _run_v1,
-    "v1_structured": _run_v1_structured,
-    "v2_hardened": _run_v2,
+# Factories, not functions: resolving a name has to be able to compose the
+# dependencies a version needs, and only the hardened one needs any.
+IMPLEMENTATIONS: Dict[str, Callable[[], Implementation]] = {
+    "v1_naive": _direct(_v1_extract),
+    "v1_structured": _direct(_v1s_extract),
+    "v1_structured_described": _direct(_diagnostic_extract),
+    "v2_hardened": _build_v2,
 }
 
 
@@ -179,7 +203,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     import anthropic
 
     recorder = UsageRecorder(anthropic.Anthropic())
-    implementation = IMPLEMENTATIONS[args.impl]
+    implementation = IMPLEMENTATIONS[args.impl]()
     summary = run(implementation, load_cases(args.limit), out, args.budget, recorder)
 
     print("ran {ran}/{total} · {failures} failed · spend USD {spend}{stopped}".format(
