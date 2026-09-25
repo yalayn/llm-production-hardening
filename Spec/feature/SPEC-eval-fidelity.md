@@ -4,7 +4,7 @@
 |---|---|
 | **SPEC** | `SPEC-eval-fidelity` |
 | **featureId** | `eval-fidelity` |
-| **State** | 👀 `In review` |
+| **State** | ✅ `Implemented` |
 | **Author** | Yordin Da Rocha |
 | **Date** | 2026-09-19 |
 | **Depends on** | `SPEC-eval-runner`, `SPEC-eval-scoring`, `SPEC-v1-structured`, `SPEC-hardening-resilience` |
@@ -200,3 +200,4 @@ N/A — one directory.
 | 2026-09-21 | **Section 5.3 was wrong and was corrected mid-build.** It un-ignored only `final-*.jsonl`, so `tests/test_readme_figures.py` still had nothing to read and went on skipping — the criterion could not be met by the rule written to meet it. Both baseline runs the README quotes are now tracked, and the criterion was verified on a real clone of the branch rather than on the working tree. |
 | 2026-09-21 | **Process note:** a mutation was restored with `git checkout` on a file whose changes had never been committed, which discarded the runner's implementation. Re-applied, and the remaining mutations were run only after committing. |
 | 2026-09-21 | Criteria met, suite green at 128. Awaiting human approval. |
+| 2026-09-24 | Criteria approved by the human. Closed as `Implemented`. Closing ran before the pull request this time, so the state transition travels inside it — the intended order, after two cycles that did not. |
